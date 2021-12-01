@@ -12,3 +12,24 @@ class Solution {
 
 --------------------------------------------
 
+class Solution {
+    public int[] sortedSquares(int[] nums) {
+        int N= nums.length;
+        int left=0;
+        int right=N-1;
+        int[] ans = new int[N];
+        for(int i=N-1; i>=0; i--){
+            int square;
+            if(Math.abs(nums[left]) < Math.abs(nums[right])){
+                square=nums[right];
+                right--;
+            }
+            else{
+                square=nums[left];
+                left++;
+            }
+           ans[i] = square*square;
+        } 
+        return ans;
+    }
+}
