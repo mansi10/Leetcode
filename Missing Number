@@ -1,1 +1,59 @@
 
+class Solution {
+    public int missingNumber(int[] nums) {
+        int length= nums.length;
+        
+        Arrays.sort(nums);
+        
+        if(nums[length-1] != length){
+            return length;
+        }
+        
+        if(nums[0] != 0){
+            return 0;
+        }
+        
+        for(int i=1; i< length; i++){
+            int expectedNum= nums[i-1] +1;
+            if(nums[i] != expectedNum)
+                return expectedNum;
+        }
+        return -1;
+    }
+}
+
+------------------------------------------------------
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int length= nums.length;
+        
+        Set<Integer> list = new HashSet<>();
+        for(int i:nums){
+            list.add(i);
+        }
+        
+        int expectedNumber= nums.length +1;
+        for(int i=0; i<expectedNumber; i++){
+            if(!list.contains(i))
+                return i;
+        }
+        return -1;
+    }
+}
+
+
+---------------------------------------------------
+
+class Solution {
+    public int missingNumber(int[] nums) {
+        int num= nums.length;
+        
+        for(int i=0; i<nums.length; i++){
+           num ^= i^nums[i];
+        }
+        return num;
+    }
+}
+
+
