@@ -1,1 +1,53 @@
 
+class Solution {
+    
+    public int[] intersect(HashSet<Integer> set1, HashSet<Integer> set2){
+        int[] output= new int[set1.size()];
+        int idx=0;
+        for(Integer i:set1){
+            if(set2.contains(i)){
+                output[idx++]=i;
+            }
+        }
+        return Arrays.copyOf(output,idx);
+    }
+    
+    public int[] intersection(int[] nums1, int[] nums2) {
+        HashSet<Integer> set1= new HashSet<>();
+        for(int i: nums1) set1.add(i);
+        HashSet<Integer> set2= new HashSet<>();
+        for(int j: nums2) set2.add(j);
+        
+        if(set1.size() < set2.size()){
+           return intersect(set1, set2);
+        }
+        else{
+          return  intersect(set2, set1);
+        }
+    }
+}
+
+
+-----------------------------------------------------------------------
+
+class Solution {
+    public int[] intersect(int[] nums1, int[] nums2) {
+        Arrays.sort(nums1);
+        Arrays.sort(nums2);
+        
+        int i=0, j=0, k=0;
+        
+        while(i < nums1.length && j< nums2.length){
+            if(nums1[i] < nums2[j])
+                i++;
+            else if(nums1[i] > nums2[j])
+                j++;
+            else{
+                nums1[k++]=nums1[i++];
+                j++;
+            }
+        }
+        return Arrays.copyOfRange(nums1,0,k);
+    }
+}
+
