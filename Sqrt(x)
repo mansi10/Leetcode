@@ -1,0 +1,19 @@
+class Solution {
+    public int mySqrt(int x) {
+        long num;
+        int pivot, left=2, right=x/2;
+        
+        while(left <=2){
+        pivot = left + (right - left)/2;
+         num = (long) pivot * pivot;
+        
+        if(num > x)
+            pivot= pivot -1;
+        else if(num < x)
+            left= left +1;
+        else
+            return pivot;
+        }
+        return right;
+    }
+}
