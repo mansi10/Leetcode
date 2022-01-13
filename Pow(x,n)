@@ -19,7 +19,7 @@ class Solution {
         double ans=1;
         long nn=n;
         if(nn<0){
-            x=-1/x;
+            x=1/x;
             nn=-nn;
         }
         
