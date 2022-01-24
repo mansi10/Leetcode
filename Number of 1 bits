@@ -12,18 +12,3 @@ public class Solution {
         return no_of_bits;
     }
 }
-
-----------------------------
-
-
-class Solution {
-    public int[] countBits(int n) {
-        int[] nums= new int[n+1];
-        
-        for(int i=0; i< nums.length; i++){
-            nums[i] = nums[i/2] + i%2;
-            
-        }
-        return nums;
-    }
-}
