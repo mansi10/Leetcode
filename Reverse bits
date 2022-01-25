@@ -15,3 +15,20 @@ public class Solution {
         return result;
     }
 }
+
+
+-----------------
+
+
+public int reverseBits(int n) {
+        int res=0;
+        for(int i=0;i<32;i++) {
+		   //multiply by 2
+            res=res<<1;
+			//add last digit to res
+            res=res+(n&1);
+			//update n by removing last digit
+            n=n>>1;
+        }
+        return res;
+    }
