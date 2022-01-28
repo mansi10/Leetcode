@@ -58,3 +58,35 @@ class Solution {
     }
 }
 
+
+--------------------------------------
+
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int result=0;
+        int left=0; 
+        int right=0;
+        
+        Set<Character> seen = new HashSet();
+        
+        while(right < s.length()){
+            
+            if(!seen.contains(s.charAt(right))){
+                seen.add(s.charAt(right));
+                result= Math.max(result, seen.size());
+                right++;
+            }
+            else{
+                seen.remove(s.charAt(left));
+                left++;
+            }
+        }
+        return result;
+    }
+}
+
+
+
+
+
+
