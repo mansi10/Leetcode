@@ -1,0 +1,48 @@
+class Solution {
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> result= new ArrayList<>();
+        
+        findCombinations(candidates, 0, target, new ArrayList<>(), result);
+    
+        return result;
+    }
+    
+    public void findCombinations(int[] nums, int index, int target, List<Integer> ds, List<List<Integer>> result){
+        if(index == nums.length){
+            if(target ==0){
+                result.add(new ArrayList<>(ds));
+            }
+            return;
+        }
+        
+        if(nums[index] <= target){
+            ds.add(nums[index]);
+            findCombinations(nums, index, target - nums[index], ds, result);
+            ds.remove(ds.size() -1);
+        }
+        findCombinations(nums, index +1, target, ds, result);
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
