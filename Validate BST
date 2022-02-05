@@ -30,7 +30,31 @@ class Solution {
     
     return validate(root.left, low, root.val) && validate(root.right, root.val, high);
     }   
+
 }
+
+
+Stack<TreeNode> stack = new Stack<>();
+        TreeNode prev = null;
+        TreeNode curr = root;
+        
+        while (curr != null || !stack.isEmpty()) {
+            while (curr != null) {
+                stack.push(curr);
+                curr = curr.left;
+            }
+            
+            // Inorder visit of node
+            curr = stack.pop();
+			// Checking BST property
+            if (prev != null && prev.val >= curr.val) {
+                return false;
+            }
+            prev = curr;
+            curr = curr.right;
+        }
+        // At this stage, all nodes have been visited, and we know the tree is BST
+        return true;
 
 -------------------------------------------------------------
 
