@@ -1,0 +1,88 @@
+class Solution {
+    
+    class TrieNode{
+        private TrieNode[] links;
+        private String word;
+        
+        TrieNode(){
+            links= new TrieNode[26];
+        }
+        
+    }
+    
+    public List<String> findWords(char[][] board, String[] words) {
+        List<String> result= new ArrayList<>();
+        
+        //build trie of words
+        TrieNode root = buildTrie(words);
+        
+        int m=board.length;
+        int n = board[0].length;
+        
+        //call dfs to search words
+        for(int i=0; i<m; i++){
+            for(int j=0; j< n; j++){
+                dfs(board, i, j, root, result);
+            }
+        }
+        return result;
+    }
+    
+    public TrieNode buildTrie(String[] words){
+        TrieNode node= new TrieNode();
+        
+        for(String w: words){
+            TrieNode p =node;
+            for(int i=0; i< w.length(); i++){
+                char ch= w.charAt(i);
+                int index= ch-'a';
+                
+                if(p.links[index] == null){
+                    TrieNode newNode= new TrieNode();
+                    p.links[index] = newNode;
+                }
+                p= p.links[index];
+            }
+            p.word=w;
+        }
+        return node;
+    }
+    
+    public void dfs(char[][] board, int i, int j, TrieNode p, List<String> res){
+        char ch= board[i][j];
+        
+        if(ch == ';' || p.links[ch - 'a'] == null){
+            return;
+        }
+        
+        // traverse nodes
+        p=p.links[ch-'a'];
+        
+        //if word is found
+        if(p.word != null){
+            res.add(p.word);
+            p.word= null;  // de-duplicate word
+        }
+        
+        
+        //mark current node to be visited
+        board[i][j]=';';
+        
+        if(i > 0)
+            dfs(board, i-1, j, p, res);
+        
+        if(j > 0)
+            dfs(board, i, j-1, p, res);
+        
+        if(i < board.length - 1)
+            dfs(board, i+1, j, p, res);
+        
+        if(j < board.length - 1)
+            dfs(board, i, j + 1, p, res);
+        
+        board[i][j]=ch;
+        
+    }
+
+    
+}
