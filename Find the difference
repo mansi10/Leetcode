@@ -19,3 +19,27 @@ class Solution {
         return '0';
     }
 }
+
+
+------------------------------------------------------
+
+class Solution {
+    public char findTheDifference(String s, String t) {
+        Map<Character, Integer> map= new HashMap<>();
+        
+        for(char m: s.toCharArray()){
+            map.put(m, map.getOrDefault(m,0) +1);
+        }
+        
+        for(char n: t.toCharArray()){
+            // second condition is for the case if t="abcda", count of "a" will become 0
+            if(!map.containsKey(n) || (map.containsKey(n) && map.get(n) == 0) )
+                return n;
+            else
+                map.put(n, map.get(n) -1);
+        }
+    return '0';
+    }
+}
+
+
