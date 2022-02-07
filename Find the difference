@@ -1,0 +1,21 @@
+class Solution {
+    public char findTheDifference(String s, String t) {
+        int[] count= new int[26];
+        
+        for(char m: s.toCharArray()){
+            count[m-'a']++;
+        }
+        
+        for(char n: t.toCharArray()){
+            count[n-'a']--;
+        }
+        
+        for(int i=0; i< count.length; i++){
+            if(count[i] < 0){
+                return (char) (i +'a');
+            }
+        }
+        
+        return '0';
+    }
+}
