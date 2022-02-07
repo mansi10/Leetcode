@@ -77,7 +77,7 @@ class Solution {
         if(i < board.length - 1)
             dfs(board, i+1, j, p, res);
         
-        if(j < board.length - 1)
+        if(j < board[0].length - 1)
             dfs(board, i, j + 1, p, res);
         
         board[i][j]=ch;
