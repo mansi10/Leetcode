@@ -7,22 +7,26 @@ class Solution {
         
         for(int i=0; i< 9; i++){
             for(int j=0; j< 9; j++){
-                int number=board[i][j];
+                
+                char number=board[i][j];
+                
                 if(number != '.'){
                     if( result.contains(number + "_R_" + i) ||
                         result.contains(number + "_C_" + j) ||
-                        result.contains(number + "_B_" + i/3 + "_" + j/3))
-                        return false;
-                }
-                else{
-                    result.add(number + "_R_" + i);
-                    result.add(number + "_C_" + j);
-                    result.add(number + "_B_" + i/3 + "_" + j/3);
+                        result.contains(number + "_B_" + i/3 + "_" + j/3)){
+                            return false;
+                    }else{
+                        result.add(number + "_R_" + i);
+                        result.add(number + "_C_" + j);
+                        result.add(number + "_B_" + i/3 + "_" + j/3);
                 }
             }
+        }
         }
         return true;
     }
 }
+
+
 
 
