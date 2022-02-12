@@ -1,0 +1,44 @@
+class Solution {
+    
+	public List<Integer> findAnagrams(String s, String t) {
+        
+		List<Integer> result= new ArrayList();
+        
+        int[] char_counts= new int[26];
+        
+        // update array based on characters in t
+        for(char c: t.toCharArray()){
+            char_counts[c - 'a']++;
+        }
+        
+        int left=0;
+        int right=0;
+        int count= t.length();
+        
+        while(right < s.length()){
+            
+            // while traversing string s, check if the value (of the character belonging to s) in the array >= 1, then it  means that the character of string s exists in string t, then decrement count and the array place
+            
+            if(char_counts[s.charAt(right++) - 'a']-- >= 1){
+                count--;
+            }
+            
+            // it means that it has found an anagram, then add it to result
+            if(count == 0){
+                result.add(left);
+            }
+            
+            // now revert all changes
+            if((right - left == t.length()) && (char_counts[s.charAt(left++) - 'a']++ >= 0) ){
+                count++;
+            }
+ 
+        }
+        return result;
+        
+	}
+}
+
+
+
+
