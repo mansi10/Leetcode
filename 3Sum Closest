@@ -6,17 +6,17 @@ class Solution {
         for(int i=0; i< nums.length-2; i++){
             int low=i+1;
             int high= nums.length-1;
-            int currentSum= nums[i] + nums[low] + nums[high];
             
             while(low < high){
-                if(currentSum < target){
-                    low++;
-                }
-                else{
+                int currentSum= nums[i] + nums[low] + nums[high];
+                if(currentSum > target){
                     high--;
                 }
+                else{
+                    low++;
+                }
                 
-                if(Math.abs(currentSum-target) < (target-closestSum)){
+                if(Math.abs(currentSum-target) < Math.abs(closestSum-target)){
                     closestSum= currentSum;
                 }
             }
@@ -25,4 +25,3 @@ class Solution {
         return closestSum;
     }
 }
-
