@@ -1,0 +1,44 @@
+class Solution {
+    public String removeKdigits(String num, int k) {
+        Stack<Character> stack = new Stack<>();
+        
+        int length= num.length();
+        
+        //push characters in stack
+        int current=0;
+        while(current < length){
+            while(k > 0 && !stack.isEmpty() && stack.peek() > num.charAt(current)){
+                stack.pop();
+                k--;
+            }
+            stack.push(num.charAt(current));
+            current++;
+        }
+        
+        //in case of "1111" or "123456"
+        while(k > 0){
+            stack.pop();
+            k--;
+        }
+        
+        //pop characters from stack and build a string
+        String ans="";
+        while(!stack.isEmpty()){
+            ans = stack.pop() + ans;
+        }
+        
+        //check for "00001234"
+        int i=0;
+        while(i < ans.length()){
+            if(ans.charAt(i) == '0'){
+                i++;
+            }
+            else
+                break;
+        }
+        
+        return ans.substring(i).length() == 0 ? "0" : ans.substring(i);
+        
+    }
+}
+
