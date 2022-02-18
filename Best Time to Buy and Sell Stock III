@@ -1,0 +1,30 @@
+class Solution {
+    public int maxProfit(int[] prices) {
+        
+        int length= prices.length;
+        
+        int minLeft=prices[0];
+        int[] leftProfit= new int[length];
+        
+        for(int i=1; i< length; i++){
+            minLeft= Math.min(minLeft, prices[i]);
+            leftProfit[i] = Math.max(leftProfit[i-1], prices[i] - minLeft);
+        }
+        
+        int maxRight=prices[length-1];
+        int[] rightProfit= new int[length];
+        
+        for(int i=length-2; i>=0; i--){
+            maxRight= Math.max(maxRight, prices[i]);
+            rightProfit[i] = Math.max(rightProfit[i+1], maxRight - prices[i]);
+        }
+        
+        int maxProfit=0;
+        for(int i=0; i< length; i++){
+            maxProfit= Math.max(maxProfit, leftProfit[i] + rightProfit[i]);
+        }
+        
+        return maxProfit;
+        
+    }
+}
