@@ -1,0 +1,43 @@
+class Solution {
+    public String decodeString(String s) {
+        Stack<Integer> freqStack = new Stack<>();
+        Stack<StringBuilder> decodedStrStack =  new Stack<>();
+        
+        StringBuilder sb = new StringBuilder();
+        int k=0;
+        
+        for(char c: s.toCharArray()){
+            if(Character.isDigit(c)){ 
+                // build integer if it's like 30
+                k = k*10 + (c-'0');
+            }
+            else if(Character.isLetter(c)){
+                sb.append(c);
+            }
+            else if(c == '['){
+                //push character and freq into stack
+                freqStack.push(k);
+                decodedStrStack.push(sb);
+                //reset values
+                sb= new StringBuilder();
+                k=0;
+            }
+            else{
+                // if ']'
+                StringBuilder temp= sb;
+                int freq = freqStack.pop();
+                sb = decodedStrStack.pop();
+                
+                while(freq > 0){
+                    // adding temp k times
+                    sb = sb.append(temp);
+                    freq--;
+                }
+                k=0;
+                
+            }
+        }
+        
+        return sb.toString();
+    }
+}
