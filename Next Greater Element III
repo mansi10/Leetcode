@@ -1,0 +1,70 @@
+class Solution {
+    public int nextGreaterElement(int n) {
+        // 1. convert number to character array
+        char[] str= (n+"").toCharArray();
+        
+        int deflectionPoint= str.length - 1;
+        
+        // find deflection point
+        while(deflectionPoint >= 0){
+            // example str[3] > str[2]
+            if(str[deflectionPoint] > str[deflectionPoint-1]){
+                break;
+            }
+            deflectionPoint--;
+        }
+        
+        // reached end of array , handles 11111 and 54321
+        if(deflectionPoint == 0){
+            return -1;
+        }
+        
+        int firstSwappingIndex= deflectionPoint-1;
+        
+        // 2. start traversing from end and find a number greater than the number at deflection point, swap them
+        int secondSwappingIndex= str.length-1;
+        
+        while(secondSwappingIndex >= firstSwappingIndex){
+            if(str[firstSwappingIndex] < str[secondSwappingIndex]){
+                break;
+            }
+        }
+        
+       // swap both numbers
+        char temp = str[firstSwappingIndex];
+        str[firstSwappingIndex] = str[secondSwappingIndex];
+        str[secondSwappingIndex] = temp;
+        
+         // 3. reverse the other part of the number to get a higher number
+        reverse(str, deflectionPoint);
+        
+        //4. convert to number
+        Long num= Long.parseLong(new String(str));
+        if(num <= Integer.MAX_VALUE){
+            return num.intValue();
+        }
+        else{
+            return -1;
+        }
+        
+    }
+    
+    public void reverse(char[] str, int index){
+        int start=index; 
+        int end= str.length-1;
+        
+       while(end >= start){
+           char temp = str[start];
+           str[start] = str[end];
+           str[end] = temp;
+           start++;
+           end--;
+       }
+        
+    }
+   
+}
+
+
+
+
