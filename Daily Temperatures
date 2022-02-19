@@ -1,0 +1,24 @@
+class Solution {
+    public int[] dailyTemperatures(int[] temperatures) {
+        int length = temperatures.length;
+        
+        int[] result = new int[length];
+        
+        //to store indices in stack
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i=0; i< length; i++){
+            
+            while(!stack.isEmpty() && temperatures[stack.peek()] < temperatures[i]){
+                //store the difference in the result array at index
+                result[stack.peek()] = i - stack.peek();
+                stack.pop();
+                
+            }
+            stack.push(i);
+        }
+        
+        return result;
+    }
+}
+
