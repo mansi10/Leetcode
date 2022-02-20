@@ -20,12 +20,12 @@ class Solution {
                     stack.push(-no);
                 }
                 else if(prevSign == '*'){
-                    int n = stack.pop();
-                    stack.push(no * n);
+                    int top = stack.pop();
+                    stack.push(no * top);
                 }
                 else if(prevSign == '/'){
-                    int n = stack.pop();
-                    stack.push(no/n);
+                    int top = stack.pop();
+                    stack.push(top/no);
                 }
                 //reset variables for next operations
                 no=0;
@@ -47,7 +47,5 @@ class Solution {
      return c == '+' || c == '-' || c == '*' || c == '/';    
     }
     
+    
 }
-
-
-
