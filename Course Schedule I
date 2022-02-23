@@ -1,0 +1,53 @@
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        
+        if(prerequisites == null || prerequisites.length == 0 || prerequisites[0].length == 0)          return true;
+        
+        // building graph
+        List<List<Integer>> list = new ArrayList<>(numCourses);
+        
+        for(int i = 0; i < numCourses; i++) {
+            list.add(new ArrayList<Integer>());
+        }
+        
+        // Fill the arraylists of each nodes with their outgoing edges/connected nodes
+        for(int[] p: prerequisites) {
+            int prerequisite = p[1];
+            int course = p[0];
+            list.get(course).add(prerequisite);
+        }
+        
+        // Define an array of visited (0 -> unvisited, 1 -> visited, 2 -> completed), initially filled with 0's 
+       int[] visited = new int[numCourses];
+        
+        for(int i = 0; i < numCourses; i++) {
+            // if there is a cycle, return false
+            if(dfs(list, visited, i)) 
+                return false;
+        }
+        return true;
+        
+    }
+    
+    // dfs code
+    public boolean dfs(List<List<Integer>> list, int[] visited, int cur){
+        
+        if(visited[cur] == 1) 
+            return true;
+        
+        if(visited[cur] == 2) 
+            return false;
+        
+        visited[cur] = 1;
+        
+        for(int next: list.get(cur)) {
+            if(dfs(list, visited, next)) 
+                return true;
+        }
+        
+        visited[cur] = 2;
+        
+        return false;
+    }
+    
+}
