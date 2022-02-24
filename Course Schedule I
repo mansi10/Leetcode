@@ -1,7 +1,8 @@
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
-        if(prerequisites == null || prerequisites.length == 0 || prerequisites[0].length == 0)          return true;
+        if(prerequisites == null || prerequisites.length == 0 || prerequisites[0].length == 0)    
+        return true;
         
         // building graph
         List<List<Integer>> list = new ArrayList<>(numCourses);
@@ -31,20 +32,24 @@ class Solution {
     
     // dfs code
     public boolean dfs(List<List<Integer>> list, int[] visited, int cur){
-        
+        // Return false if the node is visited and viewed again before completion
         if(visited[cur] == 1) 
             return true;
         
+        // Return true if the node is completed processing
         if(visited[cur] == 2) 
             return false;
         
+        // Mark the node as visited
         visited[cur] = 1;
         
+        // DFS of all the other nodes current "node" is connected to
         for(int next: list.get(cur)) {
             if(dfs(list, visited, next)) 
                 return true;
         }
         
+        // If no more other nodes for the current "node" mark as completed and return true
         visited[cur] = 2;
         
         return false;
