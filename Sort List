@@ -1,0 +1,68 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode sortList(ListNode head) {
+        // 1. find middle node and de-link linked list into two halves
+        if(head == null || head.next == null)
+            return head;
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        ListNode prev = null;
+        
+        while(fast != null && fast.next != null){
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        
+        // slow will point to middle element
+        prev.next = null;
+        
+        // continue split until there is only one node in LL
+        ListNode firstHalf= sortList(head);
+        ListNode secondHalf = sortList(slow);
+        
+        // 2. call merge on both halves
+        return merge(firstHalf, secondHalf);
+    }
+    
+    public ListNode merge(ListNode first, ListNode second){
+        if(first == null){
+            return second;
+        }
+        
+        if(second == null){
+            return first;
+        }
+        
+        ListNode dummyNode = new ListNode(-1);
+        ListNode it= dummyNode;
+        
+        while(first != null && second != null){
+            if(first.val <= second.val){
+                it.next = first;
+                first = first.next;
+                it = it.next;
+            }
+            else{
+                it.next = second;
+                second = second.next;
+                it = it.next;
+            }
+            
+            it.next = (first != null) ? first : second;
+        
+        }
+        return dummyNode.next;
+    }
+    
+}
