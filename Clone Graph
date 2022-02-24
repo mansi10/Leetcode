@@ -1,0 +1,63 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public List<Node> neighbors;
+    public Node() {
+        val = 0;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val) {
+        val = _val;
+        neighbors = new ArrayList<Node>();
+    }
+    public Node(int _val, ArrayList<Node> _neighbors) {
+        val = _val;
+        neighbors = _neighbors;
+    }
+}
+*/
+
+// BFS Approach
+class Solution {
+    public Node cloneGraph(Node node) {
+        if (node == null) {
+            return null;
+        }
+        
+        Queue<Node> queue = new LinkedList();
+        
+        // for storing old and new node
+        Map<Node, Node> cloneMap = new HashMap();
+        
+        // put first node into queue and map
+        cloneMap.put(node, new Node(node.val));
+        queue.offer(node);
+        
+        while(!queue.isEmpty()){
+            Node currentNode= queue.poll();
+            
+            // for each of its neighbours
+            for(Node n : currentNode.neighbors){
+                
+                // check if it's present in map
+                if(!cloneMap.containsKey(n)){
+                    
+                    // add neighbour node in queue and map
+                    queue.offer(n);
+                    cloneMap.put(n, new Node(n.val));
+                }
+                // retrieve new node from map
+                Node newNodeList = cloneMap.get(currentNode);
+                // now add its neighbours to achieve cloning
+                newNodeList.neighbors.add(cloneMap.get(n));
+            }
+            
+        }
+        
+        return cloneMap.get(node);
+    }
+}
+
+
+
