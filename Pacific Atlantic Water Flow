@@ -1,0 +1,64 @@
+class Solution {
+    public List<List<Integer>> pacificAtlantic(int[][] heights) {
+        List<List<Integer>> result = new ArrayList<>();
+        
+        if(heights == null || heights.length == 0 || heights[0].length == 0) {
+            return result;
+        }
+        
+        // rows
+        int rows = heights.length;
+        
+        //columns
+        int columns = heights[0].length;
+        
+        boolean[][] pacific = new boolean[rows][columns];
+        boolean[][] atlantic = new boolean[rows][columns];
+        
+        for(int j=0; j < columns; j++){
+            // top-most row in contact with the pacific ocean
+            dfs(0, j, pacific, heights, Integer.MIN_VALUE);
+            
+            // bottom-most row in contact with the atlantic ocean
+            dfs(rows-1, j, atlantic, heights, Integer.MIN_VALUE);
+        }
+        
+        for(int i=0; i < rows; i++){
+            // left-most row in contact with the pacific ocean
+            dfs(i, 0, pacific, heights, Integer.MIN_VALUE);
+            
+            // right-most row in contact with the atlantic ocean
+            dfs(i, columns-1, atlantic, heights, Integer.MIN_VALUE);
+        }
+        
+        for(int i=0; i< rows; i++){
+            for(int j=0; j< columns; j++){
+                if(atlantic[i][j] && pacific[i][j]){
+                        List<Integer> index = new ArrayList<>();
+                        index.add(i);
+                        index.add(j);
+                        result.add(index);
+                }
+            }
+        }
+        
+        return result;
+    }
+    
+    public void dfs(int i, int j, boolean[][] canReach, int[][] matrix, int previousHeight){
+        
+    if(i < 0 || i >= matrix.length || j >= matrix[0].length || j < 0 || canReach[i][j] || matrix[i][j] < previousHeight){
+            return;
+        }
+        
+        canReach[i][j] = true;
+
+        dfs(i+1, j, canReach, matrix, matrix[i][j]);
+        dfs(i-1, j, canReach, matrix, matrix[i][j]);
+        dfs(i, j-1, canReach, matrix, matrix[i][j]);
+        dfs(i, j+1, canReach, matrix, matrix[i][j]);
+        
+    }
+
+}
+
