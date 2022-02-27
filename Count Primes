@@ -1,0 +1,23 @@
+class Solution {
+    
+    // TC - O(n log log n)
+    // SC - O(n)
+    
+    public int countPrimes(int n) {
+        boolean[] primes = new boolean[n];
+        int countPrime=0;
+        
+        for(int i=2; i < n; i++){
+            if(primes[i] == false){
+                countPrime++; // // i no is prime
+                
+                // mark all factors as true
+                for(int j=2; j*i <n; j++){
+                    primes[j*i] = true; // i*j is marked non prime
+                }
+            }
+        }
+        
+        return countPrime;
+    }
+}
