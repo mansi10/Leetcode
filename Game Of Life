@@ -1,0 +1,55 @@
+class Solution {
+    
+    private int[][] directions = new int[][] { {1,0}, {0,1}, {-1,0}, {0,-1}, {-1,-1}, {1,-1}, {-1,1}, {1,1} };
+    public void gameOfLife(int[][] board) {
+        
+        for(int i=0; i<board.length; i++){
+            for(int j=0; j< board[0].length; j++){
+                if(board[i][j] == 1){
+                    int countActiveNeighbours = getActiveNeighbours(board, i, j);
+                    
+                    if(countActiveNeighbours < 2 || countActiveNeighbours > 3){
+                        board[i][j] = -2; // make it 0 or inactive later
+                    }
+                }
+                else if(board[i][j] == 0){
+                    int countActiveNeighbours = getActiveNeighbours(board, i, j);
+                    
+                    if(countActiveNeighbours == 3){
+                        board[i][j] = -1; // make it 1 or active later
+                    }
+                }
+            }
+        }
+        updateBoard(board);
+    }
+    
+    public int getActiveNeighbours(int[][] board, int row, int col){
+        int activeNeigh=0;
+        
+        for(int[]  direction : directions){
+            int newRow = row + direction[0];
+            int newCol = col + direction[1];
+            
+            if(newRow >=0 && newRow<board.length && newCol>=0 && newCol<board[0].length && (board[newRow][newCol] ==1 || board[newRow][newCol] == -2)){
+                activeNeigh++;
+            }
+        }
+        
+        return activeNeigh;
+    }
+    
+    public void updateBoard(int[][] board){
+        for(int i=0; i< board.length; i++){
+            for(int j = 0; j < board[0].length; j++){
+                if(board[i][j] == -2){
+                    board[i][j] = 0;
+                }
+                else if(board[i][j] == -1){
+                    board[i][j] = 1;
+                }
+            }
+        }
+    }
+    
+}
