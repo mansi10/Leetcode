@@ -1,0 +1,35 @@
+class Solution {
+    
+    private class LargerNumberComparator implements Comparator<String>{
+        @Override public int compare(String a, String b){
+            String order1 = a+b;
+            String order2= b+a;
+            return order2.compareTo(order1);
+        }
+    }
+
+    public String largestNumber(int[] nums) {
+        String largestNumber = new String();
+        
+        // 1. convert integer array into string
+        String[] asArrayString = new String[nums.length];
+        for(int i=0; i< nums.length; i++){
+            asArrayString[i] = String.valueOf(nums[i]);
+        }
+        
+        // 2. sort strings according to comparator
+        Arrays.sort(asArrayString, new LargerNumberComparator());
+        
+        // If, after being sorted, the largest number is `0`, the entire number is zero
+        if(asArrayString[0].equals("0")){
+            return "0";
+        }
+        
+        // 3. Build largest number from sorted array.
+        for(String numsAsStr : asArrayString){
+            largestNumber += numsAsStr;
+        }
+        
+        return largestNumber;
+    }
+}
