@@ -9,3 +9,26 @@ class Solution {
         return nums;
     }
 }
+
+
+------------------------------------------
+// SC & TC = O(N)
+class Solution {
+    public int[] countBits(int n) {
+        int[]  result = new int[n+1];
+        result[0] =0;
+        
+        for(int i=1; i<=n ; i++){
+        // i is even, then divide the number by 2
+            if(i%2 == 0){
+                result[i] = result[i/2]; 
+            }
+            else{
+            // i is odd, tehn take smaller no into consideration and add 1 to it
+                result[i] = result[i-1] + 1;
+            }
+        }
+        
+        return result;
+    }
+}
