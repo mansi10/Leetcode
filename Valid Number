@@ -1,0 +1,55 @@
+class Solution {
+    public boolean isNumber(String s) {
+        if(s== null || s.trim().length() == 0){
+            return false;
+        }
+        
+        // valid number is (sign) coefficientNumber (decimal) otherNumber e (sign) powerNumber
+        boolean numberSeen = false;
+        boolean eSeen = false;
+        boolean decimalSeen = false;
+        
+        s = s.trim();
+        
+        for(int i=0; i < s.length(); i++){
+            char c = s.charAt(i);
+            
+            switch(c){
+                case '.':
+                    // decimal appears again after it's seen "0.7." or decimal is present in the powerNumber "0.7e2.5"
+                    if(decimalSeen || eSeen)
+                        return false;
+                    
+                    decimalSeen = true;
+                    break;
+                    
+                case 'E':
+                case 'e':
+                    // e appears again "0.7e2e" or coefficient doesn't exist at all "e23"
+                    if(eSeen || !numberSeen)
+                        return false;
+                    
+                    eSeen = true;
+                    numberSeen = false; // to handle 123e78 as when 123 appears numberSeen is updated to true, for the other part is needs to be updated, numberSeen is updated as false;
+                    break;
+                    
+                case '+':
+                case '-':
+                    if(i != 0 && (s.charAt(i-1)) != 'e')
+                        return false;
+                    
+                    numberSeen = false; // to handle 123e78 as when 123 appears numberSeen is updated to true, for the other part is needs to be updated, numberSeen is updated as false;
+                    break;
+                    
+                default:
+                    if((c - '0' < 0 || c - '0' > 9))
+                        return false;
+                    
+                    numberSeen = true;
+            }
+
+        }
+        return numberSeen;
+    }
+    
+}
