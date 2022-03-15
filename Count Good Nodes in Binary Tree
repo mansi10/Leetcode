@@ -42,3 +42,34 @@ class Solution {
     }
     
 }
+
+
+-----------------------------------
+
+public int goodNodes(TreeNode root) {
+    Stack<Pair<TreeNode,Integer>> stack = new Stack<>();
+    stack.push(new Pair<TreeNode,Integer>(root, root.val));
+    int count = 1;
+    
+    while(!stack.isEmpty()) {
+        TreeNode node = stack.peek().getKey();
+        int max = stack.pop().getValue();
+        
+        if(node.right != null) {
+            if(max <= node.right.val) {
+                count++;
+            }
+            stack.push(new Pair<TreeNode,Integer>(node.right, Math.max(max,node.right.val)));
+        }
+        if(node.left != null) {
+            if(max <= node.left.val) {
+                count++;
+            }
+            stack.push(new Pair<TreeNode,Integer>(node.left, Math.max(max,node.left.val)));
+        }
+    }
+    
+    return count;
+}
+
+
