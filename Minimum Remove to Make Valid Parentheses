@@ -1,0 +1,100 @@
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        Stack<Integer> st = new Stack<>();
+        StringBuilder ans = new StringBuilder(s);
+        
+        for(int i=0;i<s.length();i++)
+        {
+            if(s.charAt(i) == '(')
+                st.push(i);
+            else if(s.charAt(i) == ')')
+            {
+                if(st.size() > 0 && s.charAt(st.peek()) == '(')
+                    st.pop();
+                else
+                    st.push(i);
+            }
+        }
+        
+        while(st.size()>0)
+            ans.deleteCharAt(st.pop());
+        
+        return ans.toString();
+    }
+} 
+
+
+----------------------------------------------------------------
+
+
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+
+        char[] arr = s.toCharArray();
+        int open = 0;
+
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == '(')
+                open++;
+            else if (arr[i] == ')') {
+                if (open == 0)
+                    arr[i] = '*';
+                else
+                    open--;
+            }
+        }
+
+        for (int i = arr.length - 1; i >= 0; i--) {
+            if (open > 0 && arr[i] == '(') {
+                arr[i] = '*';
+                open--;
+            }
+        }
+
+        int p = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != '*')
+                arr[p++] = arr[i];
+        }
+
+        return new String(arr).substring(0, p);
+    }
+}
+
+-----------------------------
+class Solution {
+    public String minRemoveToMakeValid(String s) {
+        int count = 0;
+        
+        char ch[] = s.toCharArray();
+        
+        for(int i = 0; i < ch.length; i++){
+            if(ch[i] == '(') count++;
+            else if(ch[i] == ')'){
+                if(count == 0) ch[i] = '#';
+                else count--;
+            }
+        }
+        
+        for(int i = ch.length - 1; i >= 0; i--){
+            if(ch[i] == '(' && count > 0){
+                ch[i] = '#';
+                count--;
+            }
+            
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(int i = 0; i < ch.length; i++){
+            if(ch[i] != '#') sb.append(ch[i]);
+        }
+        return sb.toString();
+    }
+}
+
+
+
+
+
+
