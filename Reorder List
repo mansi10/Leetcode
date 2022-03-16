@@ -12,7 +12,7 @@ class Solution {
     public void reorderList(ListNode head) {
         ListNode fast=head;
         ListNode slow=head;
-        ListNode prev=null;
+        // ListNode prev=null;
         ListNode l1=head;
         
         while(fast != null && fast.next != null){
@@ -20,14 +20,10 @@ class Solution {
             slow=slow.next;
         }
          
-         // if nodes are odd
-        if(fast != null) {
-            prev = slow;
-            slow = slow.next;
-        }
-        
         // Divide the list into two halves 
-        prev.next = null;
+        ListNode prev = slow;
+        slow = slow.next; 
+        prev.next =null;
         
         ListNode l2= reverse(slow);
         
@@ -35,20 +31,20 @@ class Solution {
     }
     
     public ListNode reverse(ListNode head){
-        ListNode prev=null;
+        ListNode pre=null;
         ListNode curr=head;
         
         while(curr != null){
             ListNode temp= curr.next;
-            curr.next=prev;
-            prev=curr;
+            curr.next=pre;
+            pre=curr;
             curr=temp;
         }
-        return prev;
+        return pre;
     }
     
     public void merge(ListNode l1, ListNode l2){
-        while(l1 != null){
+        while(l1 != null && l2 != null){
             ListNode l1_next= l1.next;
             ListNode l2_next = l2.next;
             
@@ -61,7 +57,6 @@ class Solution {
     }
     
 }
-
 
 
 -----------------
