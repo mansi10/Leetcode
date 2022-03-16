@@ -1,0 +1,18 @@
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Stack<Integer> stack = new Stack<>();
+        int j=0;
+        
+        for(int i=0; i < pushed.length; i++){
+            // keep pushing values to stack until the stack top is equal to the popped array value
+            stack.push(pushed[i]);
+            // check if the stack top is equal to the popped array values. If values match, pop from stack, and incremenet j
+            while(!stack.isEmpty() && popped[j] == stack.peek()){
+                stack.pop();
+                j++;
+            }
+        }
+        
+        return stack.isEmpty();
+    }
+}
