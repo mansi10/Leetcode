@@ -1,0 +1,20 @@
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        Arrays.sort(points, (a,b) -> Integer.compare(a[1], b[1]));
+        int noOfArrows = 1;
+        int reach = points[0][1];
+        
+        for(int i=1; i< points.length; i++){
+            // if start point of the current interval is greater than the end point of the previous interval, then it means no overlap, so more arrows are needed 
+            if(points[i][0] > reach){
+                noOfArrows++;
+                reach = points[i][1];
+            }
+            else{
+              // skip because an overlap exists and the same arrow will burst the overlapped balloons
+            }
+        }
+        
+        return noOfArrows;
+    }
+}
