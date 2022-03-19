@@ -1,0 +1,41 @@
+class Solution {
+    public String removeDuplicateLetters(String s) {
+        int length = s.length();
+        int[] lastIndexArray = new int[26];
+        boolean visited[] = new boolean[26];
+        
+        // store last indices of each character
+        for(int i=0; i< length; i++){
+            lastIndexArray[s.charAt(i) - 'a'] = i;
+        }
+    
+        // lastIndexArray[] = [2, 3, 4] for "bcabc"
+        
+        Stack<Integer> stack = new Stack<>();
+        
+        for(int i=0; i<length; i++){
+            int c = s.charAt(i) - 'a';
+            
+          //  if seen continue as we need to pick one char only
+            if(visited[c]){
+                continue;
+            }
+            
+            // mark it as visited/seen
+            visited[c] = true;
+            
+            // if the topmost element of stack is greater than the current character and the last index value of the topmost character is greater than the 
+            while(!stack.isEmpty() && stack.peek() > c && lastIndexArray[stack.peek()] > i){
+                visited[stack.pop()] = false; // pop out and mark unseen
+            }
+            stack.push(c);
+        }
+        
+        StringBuilder ans = new StringBuilder();
+            for(int l: stack){
+                ans.append((char)(l + 'a'));
+            }
+        
+        return ans.toString();
+    }
+}
