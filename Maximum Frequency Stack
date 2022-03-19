@@ -1,0 +1,52 @@
+// TC- O(N)
+// SC- O(1)
+
+class FreqStack {
+
+    List<Stack<Integer>> stackList = null;
+    // map to store integers and their corresponding frequency
+    Map<Integer, Integer> map = null;
+    
+    public FreqStack() {
+        stackList = new ArrayList<>();
+        map = new HashMap<>();
+    }
+    
+    public void push(int val) {
+        // update map with the frequency of the integer
+        map.put(val, map.getOrDefault(val,0) + 1);
+        int freq = map.get(val);
+        
+        // create a new stack
+        if(freq - 1 >= stackList.size()){
+            stackList.add(new Stack<Integer>());
+        }
+        stackList.get(freq - 1).add(val);
+    }
+    
+    public int pop() {
+        int size = stackList.size();
+        int val = stackList.get(size-1).pop();
+        
+        // remove stack if empty
+        if(stackList.get(size-1).isEmpty()){
+            stackList.remove(size - 1);
+        }
+        // update element frequency in map 
+        map.put(val, map.get(val) - 1);
+        
+        // remove element from map if value is 0
+        if(map.get(val) == 0){
+            map.remove(val);
+        }
+        
+        return val;
+    }
+}
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack obj = new FreqStack();
+ * obj.push(val);
+ * int param_2 = obj.pop();
+ */
