@@ -1,0 +1,66 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+     TreeNode first;
+     TreeNode last;
+     TreeNode middle;
+     TreeNode prev;
+    
+    public void recoverTree(TreeNode root) {
+         first = last = middle = null;
+         prev = new TreeNode(Integer.MIN_VALUE);
+        
+        // inorder traversal
+        inorder(root);
+        
+        // compare first and last if they exist
+        if(first != null && last != null){
+            int temp = first.val;
+            first.val = last.val;
+            last.val = temp;
+        }
+        
+        // compare first and middle in case last value does not exist
+        else if(first != null && middle != null){
+            int temp = first.val;
+            first.val = middle.val;
+            middle.val = temp;
+        }
+    }
+    
+    public void inorder(TreeNode root){
+        if(root == null){
+            return;
+        }
+        
+        inorder(root.left);
+        
+        // actual logic to check whether the nodes are swapped or not
+        if(prev != null && root.val < prev.val){
+            if(first == null){ // indicating this is the first violation
+                first = prev;
+                middle = root;
+            } 
+            else{ // second violation
+                last = root;
+            }
+        }
+        
+        prev = root;
+        
+        inorder(root.right);   
+    }
+}
