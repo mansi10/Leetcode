@@ -25,20 +25,23 @@ class Solution {
 
 class Solution {
     public int lengthOfLIS(int[] nums) {
-        TreeSet<Integer> bs= new TreeSet<>();
+        TreeSet<Integer> bst = new TreeSet<>();
         
-        for(int num: nums){
-            Integer highnumber= bs.ceiling(num);
+        for(int num : nums){
+            // check if higher element is present in set than the current number
+            Integer higherOrEqual = bst.ceiling(num);
             
-            if(highnumber == null){
-                bs.add(num);
+            if(higherOrEqual == null){
+                // if null, then add teh number in set
+                bst.add(num);
             }
             else{
-                bs.remove(highnumber);
-                bs.add(num);
+                // if higher value exists in set, remove this value and add the number
+                bst.remove(higherOrEqual);
+                bst.add(num);
             }
         }
         
-        return bs.size();
+        return bst.size();
     }
 }
