@@ -2,14 +2,14 @@ class Solution {
     public void nextPermutation(int[] nums) {
         int i = nums.length - 2;
         
-        // find first breakpoint
+        // find first breakpoint: from right to left, search for the first one which is smaller than the right digit.
         while(i >= 0 &&  nums[i] >= nums[i + 1]){
             i--;
         }
         
         if(i >= 0){
             int j = nums.length - 1;
-            // find second breakpoint
+            // find second breakpoint: If the one exists, search a one which is larger than it from right to left.
             while(nums[j] <= nums[i]){
                 j--;
             }
