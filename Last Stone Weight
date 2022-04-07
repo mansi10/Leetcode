@@ -1,0 +1,26 @@
+class Solution {
+    public int lastStoneWeight(int[] stones) {
+        PriorityQueue<Integer> heap = new PriorityQueue<>((a,b) -> (b-a)); // max heap
+        
+        for(int stone: stones){
+            heap.offer(stone);
+        }
+        
+        while(heap.size() > 1){
+            int largestEle = heap.poll();
+            int secondLargestEle = heap.poll();
+            
+            if(largestEle == secondLargestEle){
+                continue;
+            }
+            else{
+                // take the difference and add in heap
+                int diff = largestEle - secondLargestEle;
+                heap.offer(diff);
+            }
+        }
+        
+        return heap.size() == 0 ? 0 : heap.poll();
+        
+    }
+}
