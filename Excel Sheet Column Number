@@ -10,3 +10,18 @@ class Solution {
         return result;
     }
 }
+
+
+---------------
+
+class Solution {
+    public int titleToNumber(String columnTitle) {
+        int output = 0;
+        
+        for(int i = columnTitle.length() - 1, x=0; i >= 0; i--, x++){
+            output += (columnTitle.charAt(i) + 1 - 'A') * Math.pow(26,x);
+        }
+        
+        return output;
+    }
+}
