@@ -1,0 +1,39 @@
+class Solution {
+    public int evalRPN(String[] tokens) {
+        Stack<String> stack = new Stack<>();
+        
+        for(String token : tokens){
+            if(isOperator(token)){
+                int ele2 = Integer.parseInt(stack.pop());
+                int ele1 = Integer.parseInt(stack.pop());
+                
+                int ans = 0;
+                
+                if(token.equals("*")){
+                    ans = ele1 * ele2;
+                } else if(token.equals("+")){
+                    ans= ele1 + ele2;
+                } else if(token.equals("-")){
+                    ans = ele1 - ele2;
+                } else if(token.equals("/")){
+                    ans = ele1/ele2;
+                }
+                stack.push(ans + "");
+            }
+                else {
+                    stack.push(token);
+                }
+                
+            }
+        return Integer.parseInt(stack.peek());
+        }
+        
+    
+    private boolean isOperator(String el){
+        if(el.equals("*") || el.equals("+") || el.equals("-") || el.equals("/")){
+            return true;
+        }
+        return false;
+    }
+    
+}
