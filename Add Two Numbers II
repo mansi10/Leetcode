@@ -1,1 +1,108 @@
 
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+            ListNode list1 = reverseList(l1);
+            ListNode list2 = reverseList(l2);
+            
+            ListNode res = addTwoNumbers1(list1, list2);
+            
+            ListNode finalRes = reverseList(res);
+            
+            return finalRes;
+        
+    }
+    ListNode reverseList(ListNode head){
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null){
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+    ListNode addTwoNumbers1(ListNode l1, ListNode l2) {
+        ListNode t1 = l1;
+        ListNode t2 = l2;
+        
+        ListNode head = new ListNode(0);
+        ListNode handler = head;
+        
+        int carry = 0;
+        while(t1 != null || t2 != null || carry == 1){
+            int sum = 0;
+            if(t1 != null){
+                sum += t1.val;
+                t1 = t1.next;
+            }
+            if(t2 != null){
+                sum += t2.val;
+                t2 = t2.next;
+            }
+            sum += carry;
+            carry = sum/10;
+            ListNode newNode = new ListNode(sum%10);
+            handler.next = newNode;
+            handler = handler.next;
+        }
+        return head.next;
+    }
+}
+
+
+---------------------------------------
+
+// using stacks
+
+
+class Solution {
+    public ListNode reverse(ListNode head){
+        ListNode prev = null;
+        ListNode curr = head;
+        while(curr != null){
+            ListNode next = curr.next;
+            
+            curr.next = prev;
+            
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack<Integer> st1 = new Stack<>();
+        Stack<Integer> st2 = new Stack<>();
+        
+        while(l1 != null){
+            st1.push(l1.val);
+            l1 = l1.next;
+        }
+        while(l2 != null){
+            st2.push(l2.val);
+            l2 = l2.next;
+        }
+        
+        ListNode dh = new ListNode(-1);
+        ListNode dt = dh;
+        
+        int carry = 0;
+        while(st1.size() > 0 || st2.size() > 0 || carry != 0){
+            int val1 = st1.size() > 0 ? st1.pop() : 0;
+            int val2 = st2.size() > 0 ? st2.pop() : 0;
+            int sum = val1 + val2 + carry;
+            
+            int q = sum / 10;
+            int r = sum % 10;
+            
+            dt.next = new ListNode(r);
+            dt = dt.next;
+            carry = q;
+        }
+        return reverse(dh.next);
+    }
+}
+
+
+
+
