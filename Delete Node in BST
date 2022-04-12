@@ -15,39 +15,32 @@
  */
 class Solution {
     public TreeNode deleteNode(TreeNode root, int key) {
-        if(root == null){
+        if(root==null) 
             return null;
-        }
         
-        if(key > root.val){
-            root.right = deleteNode(root.right, key);
+        if(key <root.val){
+            root.left=deleteNode(root.left, key);
         }
-        else if(key < root.val){
-            root.left = deleteNode(root.left, key);
+        else if(key >root.val){
+            root.right=deleteNode(root.right, key);
         }
         else{
-            if(root.left == null){
+            if(root.left==null) 
                 return root.right;
-            }
-            else if(root.right == null){
+            else if(root.right==null) 
                 return root.left;
-            }
-            else{
-                root.val = findSuccessor(root.right);
-                // delete the value from the subtree
-                root.right = deleteNode(root.right, root.val);
-            }
+            
+            root.val=minVal(root.right);
+            
+            root.right=deleteNode(root.right,root.val);
         }
         return root;
     }
-        
-        private int findSuccessor(TreeNode root){
-            int minValue = root.val;
-            if(root.left != null){
-                minValue = root.val;
-                root = root.left;
-            }
-            return minValue;
+    
+	public int minVal(TreeNode root){
+        while(root.left!=null){
+            root=root.left;
         }
-        
+        return root.val;
+    }
 }
