@@ -1,0 +1,44 @@
+class Solution {
+    public String reorganizeString(String s) {
+        Map<Character, Integer> map = new HashMap<>();
+        for(char c : s.toCharArray()){
+            map.put(c, map.getOrDefault(c, 0) + 1);
+        }
+        
+        // build heap in such a way that the element of maximum frequency is on the peek
+        PriorityQueue<Character> maxheap = new PriorityQueue<>((a,b) -> (map.get(b) - map.get(a)));
+        
+        maxheap.addAll(map.keySet());
+        
+        StringBuilder sb = new StringBuilder();
+        
+        while(maxheap.size() > 1){
+            char firstChar = maxheap.remove();
+            char secondChar = maxheap.remove();
+            sb.append(firstChar);
+            sb.append(secondChar);
+            // decrease the count in map as teh character has been used in current string
+            map.put(firstChar, map.get(firstChar) - 1);
+            map.put(secondChar, map.get(secondChar) - 1);
+            
+            // if the final frequency of these characters is still greater than 0, add them back to heap so taht they can be utilized
+            if(map.get(firstChar) > 0){
+                maxheap.add(firstChar);
+            } 
+            
+             if(map.get(secondChar) > 0){
+                maxheap.add(secondChar);
+            } 
+        }
+        
+        if(!maxheap.isEmpty()){
+            char last = maxheap.remove();
+            if(map.get(last) > 1) { // this means that we cannot further separate the strings
+                return "";
+            }
+             sb.append(last);
+        }
+        
+        return sb.toString();
+    }
+}
