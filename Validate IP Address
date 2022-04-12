@@ -1,0 +1,66 @@
+class Solution {
+  String NEITHER ="Neither";
+  String IPV4 = "IPv4";
+  String IPV6 = "IPv6";
+  
+  public String validIPAddress(String ip) {
+    if(ip==null) 
+        return NEITHER;
+      
+    String[] v4= ip.split("\\.", -1);
+    String[] v6= ip.split("\\:", -1);
+      
+    if(v4.length != 4 && v6.length != 8) {
+      return NEITHER;
+    } 
+    if(v4.length == 4){
+      return checkIPv4(v4);
+    } else {
+      return checkIPv6(v6);
+    }
+  }   
+  
+  private String checkIPv4(String[] ips) {
+    for(String ip : ips) {
+      if(ip.length()==0) 
+          return NEITHER;
+      if(!checkIpv4Range(ip)) 
+          return NEITHER;
+      if(ip.charAt(0)=='0' && ip.length()>1) 
+          return NEITHER;
+    }
+    return IPV4;
+  }
+  
+  private boolean checkIpv4Range(String ip) {
+    try{
+      int n = Integer.valueOf(ip);
+      if(n>=0 && n<=255) { 
+          return true; 
+      }
+    } catch(Exception e) {
+      return false;
+    }
+    return false;
+  }
+  
+  private String checkIPv6(String[] ips) {
+     for(String ip : ips) {      
+       if(ip.length()==0 || ip.length() > 4) 
+           return NEITHER;
+       if(!isHexaDecimal(ip)) 
+           return NEITHER;
+     }
+    return IPV6;
+  }
+  
+  private boolean isHexaDecimal(String ip) {
+    try{
+      int n = Integer.parseInt(ip, 16);
+        return true; 
+    } catch(Exception e) {
+      return false;
+    }    
+  }
+}
+
