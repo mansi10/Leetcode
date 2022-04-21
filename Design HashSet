@@ -1,0 +1,96 @@
+class MyHashSet {
+
+    boolean[] set = null;
+    
+    public MyHashSet() {
+        set = new boolean[1000001];
+    }
+    
+    public void add(int key) {
+        set[key] = true;
+    }
+    
+    public void remove(int key) {
+        set[key] = false;
+    }
+    
+    public boolean contains(int key) {
+        return set[key];
+    }
+}
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet obj = new MyHashSet();
+ * obj.add(key);
+ * obj.remove(key);
+ * boolean param_3 = obj.contains(key);
+ */
+ 
+ 
+ ----------------------
+ 
+ class MyHashSet {
+
+    int capacity = 0;
+    List<Integer>[] list = null;
+    
+    public MyHashSet() {
+        capacity = 1500;
+        list = new List[capacity];
+    }
+    
+    private int getHash(int key){
+        return key % capacity;
+    }
+    
+    public void add(int key) {
+        int hashIndex = getHash(key);
+        
+        if(list[hashIndex] == null){
+            list[hashIndex] = new LinkedList<>();
+        }
+        
+        // check if key is already present in the list
+        if(list[hashIndex].indexOf(key) == -1){
+            list[hashIndex].add(key);
+        }
+    }
+    
+    public void remove(int key) {
+        int hashIndex = getHash(key);
+        
+        if(list[hashIndex] == null || list[hashIndex].indexOf(key) == -1){
+            return ;
+        }
+        
+        list[hashIndex].remove(list[hashIndex].indexOf(key));
+        
+    }
+    
+    public boolean contains(int key) {
+        int hashIndex = getHash(key);
+        
+        if(list[hashIndex] == null || list[hashIndex].indexOf(key) == -1){
+            return false;
+        }
+        else 
+            return true;
+        
+    }
+}
+
+/**
+ * Your MyHashSet object will be instantiated and called as such:
+ * MyHashSet obj = new MyHashSet();
+ * obj.add(key);
+ * obj.remove(key);
+ * boolean param_3 = obj.contains(key);
+ */
+ 
+ 
+ 
+ 
+ 
+ 
+ 
