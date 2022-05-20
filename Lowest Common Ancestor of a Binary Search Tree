@@ -39,12 +39,16 @@ class Solution {
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         TreeNode node = root;
         
+        if(root == null){
+            return null;
+        }
+        
         while(node != null){
-            if(p.val < root.val && q.val < root.val){
-                node = node.left;
-            }
-            else if(p.val > root.val && q.val > root.val){
+            if(p.val > node.val && q.val > node.val){
                 node = node.right;
+            }
+            else if(p.val < node.val && q.val < node.val){
+                node = node.left;
             }
             else{
                 return node;
@@ -53,3 +57,6 @@ class Solution {
         return null;
     }
 }
+
+
+
