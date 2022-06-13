@@ -45,3 +45,38 @@ class Solution {
     return -1;
   }
 }
+
+
+--------------------
+
+class Solution {
+    public int findMin(int[] nums) {
+        int l= 0;
+        int r= nums.length-1;
+        
+        if(nums.length == 1){
+            return nums[0];
+        }
+        
+        // not rotated
+        if(nums[0] < nums[r]){
+            return nums[0];
+        }
+    
+        // first ele < all ele to the left of inflection point
+        // all ele to right of inflection point < first ele
+        while(l < r){
+            int mid = (l + r)/2;
+            
+            if(nums[mid] <= nums[r]){
+                r = mid;
+            }
+            else{
+                l = mid+1;
+            }
+        }
+        return nums[l];
+    }
+}
+
+
