@@ -1,3 +1,8 @@
+When sorting by the endpoints as done in this solution (#5 in the article), you always choose to drop the interval at position i, 
+because it will always have a later endpoint than the previous - a more complete explanation is in the article. 
+When sorting by the start points, you are right - you would need to take the minimum between previous kept end and the end at position i, 
+because sorting by start points would not guarantee which endpoint is shorter.
+
 
 // start points
 
