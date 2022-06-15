@@ -1,5 +1,36 @@
 class Solution {
     public int characterReplacement(String s, int k) {
+        int start = 0;
+        int[] char_counts = new int[26];
+        int maxCharacterCount =0;
+        int maxSubstringLength=0;
+        
+        if(s.length() == 1)
+            return 0;
+        
+        for(int end = 0; end < s.length(); end++){
+            char_counts[s.charAt(end) - 'A']++;
+            int currentCharacterCount = char_counts[s.charAt(end) - 'A'];
+            maxCharacterCount = Math.max(maxCharacterCount, currentCharacterCount);
+            
+            // contract the window
+            while(end - start + 1 - maxCharacterCount > k){
+                char_counts[s.charAt(start) - 'A']--;
+                start++;
+            }
+            
+            maxSubstringLength = Math.max(maxSubstringLength, end-start+1);
+            
+        }
+        return maxSubstringLength;
+    }
+}
+
+
+-----------------------------
+
+class Solution {
+    public int characterReplacement(String s, int k) {
         //holds all repeated characters
     Map<Character, Integer> charCountMap = new HashMap<>();
     //left pointer, max repeated char count, max window size
