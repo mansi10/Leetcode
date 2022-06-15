@@ -1,39 +1,41 @@
 public class Codec {
-    final char DELIMITER = '#';
+    final char DELIMITER= '#';
+
     // Encodes a list of strings to a single string.
     public String encode(List<String> strs) {
         StringBuilder sb = new StringBuilder();
+        
         for(String str : strs){
             sb.append(str.length());
             sb.append(DELIMITER);
             sb.append(str);
         }
+        
         return sb.toString();
     }
 
     // Decodes a single string to a list of strings.
     public List<String> decode(String s) {
-        List<String> res = new LinkedList<>();
-        char[] arr = s.toCharArray();
-        for(int i = 0; i < arr.length; i++){
-            //Find the number of characters
-            StringBuilder sb = new StringBuilder();
-            while(arr[i] != DELIMITER){
-                sb.append(arr[i++]);
+        List<String> result = new ArrayList<>();
+        
+        int i=0, j=0;
+        while(j < s.length()){
+            if(s.charAt(j) == DELIMITER){
+                // find the length of string
+                int wordLength = Integer.parseInt(s.substring(i,j));
+                // extract the word
+                String currentWord = s.substring(++j, j=j+wordLength);
+                // set the counter for next word
+                i = j++;
+                // add extracted word in the arraylist
+                result.add(currentWord);
             }
-            i++;
-            
-            //Iteration the enter string to add to res list
-            int numOfChars = Integer.valueOf(sb.toString());
-            int end = i + numOfChars;
-            sb = new StringBuilder();
-            while(i < end){
-                sb.append(arr[i++]);
+            else{
+                j++;
             }
-            i--;
-            res.add(sb.toString());
         }
-        return res;
+    
+        return result;
     }
 }
 
