@@ -1,5 +1,38 @@
 class Solution {
     public int coinChange(int[] coins, int amount) {
+       return recursionHelper(coins, amount);
+    }
+    
+    private int recursionHelper(int[] coins, int remainingAmount){
+        if(remainingAmount < 0){
+            return -1;
+        }
+        
+        if(remainingAmount == 0){
+            return 0;
+        }
+        
+        int minCount = Integer.MAX_VALUE;
+        
+        for(int coin : coins){
+            int count = recursionHelper(coins, remainingAmount - coin);
+            
+            if(count == -1)
+                continue;
+            
+            minCount = Math.min(minCount, count+1);
+        }
+        
+        return minCount == Integer.MAX_VALUE ? -1 : minCount;
+    }
+    
+}
+
+----------------------------------------------------------------------------------
+
+
+class Solution {
+    public int coinChange(int[] coins, int amount) {
         int[] dp= new int[amount+1];
         Arrays.fill(dp, amount +1);
         
