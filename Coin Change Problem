@@ -3,19 +3,19 @@ class Solution {
        return recursionHelper(coins, amount);
     }
     
-    private int recursionHelper(int[] coins, int remainingAmount){
-        if(remainingAmount < 0){
+    private int recursionHelper(int[] coins, int amount){
+        if(amount < 0){
             return -1;
         }
         
-        if(remainingAmount == 0){
+        if(amount == 0){
             return 0;
         }
         
         int minCount = Integer.MAX_VALUE;
         
         for(int coin : coins){
-            int count = recursionHelper(coins, remainingAmount - coin);
+            int count = recursionHelper(coins, amount - coin);
             
             if(count == -1)
                 continue;
@@ -25,8 +25,9 @@ class Solution {
         
         return minCount == Integer.MAX_VALUE ? -1 : minCount;
     }
-    
+ 
 }
+
 
 ----------------------------------------------------------------------------------
 
