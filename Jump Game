@@ -13,3 +13,25 @@ class Solution {
         return lastIndex ==0;
     }
 }
+
+----------------------------
+
+class Solution {
+    public boolean canJump(int[] nums) {
+        int iMaxReach = 0 + nums[0];
+        int i=1;
+        
+        if(nums.length == 1){
+            return true;
+        }
+        
+        while(iMaxReach >= i){
+            if(iMaxReach >= nums.length -1){
+                return true;
+            }
+            iMaxReach = Math.max(iMaxReach, i + nums[i]);
+            i++;
+        }
+        return false;
+    }
+}
