@@ -15,6 +15,19 @@ class MedianFinder {
         if (largeNums.size() > smallNums.size()) {
             smallNums.offer(largeNums.poll());
         }
+      
+      // if(leftMaxHeap.size()>rightMinHeap.size()+1)
+        {
+            int data=leftMaxHeap.poll();
+            rightMinHeap.add(data);
+        }
+        else if(rightMinHeap.size()>leftMaxHeap.size()+1)
+        {
+            int data=rightMinHeap.poll();
+            leftMaxHeap.add(data);
+    //    }
+        
+        
     }
 
     public double findMedian() {
