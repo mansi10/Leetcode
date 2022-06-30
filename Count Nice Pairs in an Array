@@ -1,0 +1,40 @@
+class Solution {
+    public int countNicePairs(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+         int mod = (int)Math.pow(10, 9) + 7;
+        
+        int count=0;
+        
+        for(int i=0; i< nums.length; i++){
+            int diff = nums[i] - reverseNum(nums[i]);
+            
+            if(map.containsKey(diff)){
+                int countNum = map.get(diff);
+                map.put(diff, countNum +1);
+                count = (count + countNum)%mod;
+            }
+            else{
+                map.put(diff, 1);
+            }
+        }
+        return count;
+        
+    }
+    
+    public int reverseNum(int num){
+        
+        int result =0;
+        
+        while(num != 0){
+            int rem = num%10;
+            num = num/10;
+            
+            result = result*10 + rem;
+            
+        }
+        return result;
+    }
+    
+}
+
+
