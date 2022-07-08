@@ -1,0 +1,33 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        Map<Character, String> map = new HashMap<>();
+        String[] words = s.split(" ");
+        
+        if(pattern.length() != words.length){
+            return false;
+        }
+        
+        for(int i=0; i< pattern.length(); i++){
+            char p = pattern.charAt(i);
+            
+            // check if character of pattern exists in map
+            if(map.containsKey(p)){
+                // check if key and value match or not
+                if(!map.get(p).equals(words[i])){
+                    return false;
+                }
+            }
+            // if character of p does not exist in map
+            else{
+                // check if the word in s is already present and mapped to another character
+                if(map.containsValue(words[i])){
+                    return false;
+                }
+                // put in map
+                map.put(p, words[i]);
+            }
+        }
+        return true;
+    }
+}
+
