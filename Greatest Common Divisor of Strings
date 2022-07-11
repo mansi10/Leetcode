@@ -1,0 +1,17 @@
+class Solution {
+    public String gcdOfStrings(String str1, String str2) {
+        int size1 = str1.length(), size2 = str2.length();
+        if (size1 < size2) {
+            return gcdOfStrings(str2, str1);
+        }
+
+        return size1 == size2 ? (str1.equals(str2) ? str1 : "") : (str1.startsWith(str2) ? gcdOfStrings(str2, str1.substring(str2.length())) : "");
+    }
+}
+
+// first assume the strlen(str1) >= strlen(str2), if not, return gcdOfStrings(str2, str1);
+if strlen(str1) == strlen(str2), just compare two strings are equal or not.
+if (strlen(str1) != strlen(str2), then we could know that if str1 and str2 has common divider,
+it must have: str1 contains str2 (we can easily prove that, since assume that str1 == m * k, str2 == n * k, m > n, than the substring of str1 from 0 to nk - 1 is str2).
+so if str1.startsWith(str2), then we check gcdOfStrings(str1 - str2, str2), like the integer's GCD algorithm;
+continue the steps 1 - 3, in the end we will get str1 == str2, then check equal or not, if equal return str1, else return empty.
