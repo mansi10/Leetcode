@@ -16,7 +16,7 @@ class MyCalendar {
         
         // Condition around end
         // end > Higher Entry Start Time
-        if(calendar.ceilingEntry(end) != null && end < calendar.floorEntry(end).getKey()){
+        if(calendar.ceilingEntry(start) != null && end > calendar.ceilingEntry(start).getKey()){
             return false;
         }
         
