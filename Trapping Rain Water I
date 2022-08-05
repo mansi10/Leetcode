@@ -1,3 +1,39 @@
+
+
+class Solution {
+    public int trap(int[] height) {
+        
+// Set left and right pointer.
+// At current level (height[left], height[right]), find the max from its left (exclude itself) and find max from its right(exclude itself)
+// if leftMax < rightMax, choose lower one(where water can be held) the water on the current level can hold is (leftMax - current_level)
+// if leftMax > rightMax, the water on the current level can hold is (rightMax - current_level).
+        
+        int length = height.length;
+        int result =0;
+        
+        int l =0;
+        int r= length-1;
+        
+        int leftMax=0, rightMax=0;
+        
+        while(l < r){
+            leftMax = Math.max(leftMax, height[l]);
+            rightMax = Math.max(rightMax, height[r]);
+            
+            if(leftMax < rightMax) 
+                result += leftMax - height[l++];
+            else 
+                result += rightMax - height[r--];
+        }
+        
+        return result;
+    }
+}
+
+
+---------------------
+
+
 class Solution {
     public int trap(int[] height) {
         int length = height.length;
