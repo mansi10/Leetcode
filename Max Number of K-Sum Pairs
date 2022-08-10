@@ -1,0 +1,80 @@
+// brute force TC - O(N2)
+
+class Solution {
+    public int maxOperations(int[] nums, int k) {
+        int count = 0;
+        for (int first = 0; first < nums.length; first++) {
+            // check if element pointed by first is already taken up
+            if (nums[first] == 0) continue;
+            for (int second = first + 1; second < nums.length; second++) {
+                // check if element pointed by second is already taken up
+                if (nums[second] == 0) continue;
+                if (nums[first] + nums[second] == k) {
+                    nums[first] = nums[second] = 0;
+                    count++;
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+}
+
+----------------------------------------------------------
+
+ Approach 2 : sort and 2 pointers TC - O(N Log N)
+ 
+ class Solution {
+    public int maxOperations(int[] nums, int k) {
+        Arrays.sort(nums);
+        int count = 0;
+        int left = 0;
+        int right = nums.length - 1;
+        while (left < right) {
+            if (nums[left] + nums[right] < k) {
+                left++;
+            } else if (nums[left] + nums[right] > k) {
+                right--;
+            } else {
+                left++;
+                right--;
+                count++;
+            }
+        }
+        return count;
+    }
+}
+ 
+
+
+---------------------------------------------
+
+Approach 3 : TC - O(N)
+
+class Solution {
+    public int maxOperations(int[] nums, int k) {
+        int count=0;
+        Map<Integer, Integer> map = new HashMap<>();
+        
+        for(int i=0; i < nums.length; i++){
+            int complement = k- nums[i];
+            
+            if(map.containsKey(complement)){
+                 int freq = map.get(complement);
+                if(freq == 1){
+                    map.remove(complement);
+                }else{
+                    map.put(complement, map.getOrDefault(complement, 0) - 1);
+                 }
+            count++;
+            }
+            else{
+                map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
+            }
+        }
+        
+        return count;
+    }
+}
+
+
