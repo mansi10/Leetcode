@@ -1,0 +1,48 @@
+/* 
+The main idea is we keep calculating sum of all numbers in the array and calculate sum%k which is 
+the remainder and store it with the value of current index in a map.
+
+so at any point if you see a same remainder twice, you know the difference from the first index where remainder
+was the same as the current remainder is a multiple of k.
+
+Ex: [23,2,4,6,7] , k=6
+
+At index 0 we calculate sum = 23 and calculate remainder 23%6 = 5 and store it with value index 0 in the 
+map. map -> [5->0]
+At index 1 we calculate sum  23+2 = 25 % 6 = 1. map = [5->0,1->1]
+At index 2 sum= 25+4 = 29 , rem = 29%6 = 5 there is a 5 already in the map.Check if there is atleast 1 
+index between first index and current index, because there have to be atleast 2 numbers in the criteria.
+
+So at this point we know 2,4 match the criteria and return true.
+
+Edge case:
+Eg: [0,0,2]
+you know the ans is true because [0,0] is enough.
+So to solve this edge case we store a 0 and -1 in the map initially.    
+*/
+
+
+class Solution {
+    public boolean checkSubarraySum(int[] nums, int k) {
+        
+        //Use a HashMap to store sum%k
+        // this is for example (-10,10,5,4,... )
+        // -10,10 add up to zero is a multiple of k.
+        HashMap<Integer, Integer> map= new HashMap<>();
+        map.put(0,-1);
+        
+        int sum=0, maxLength= 0;
+        for(int i=0; i<nums.length; i++){
+            sum+= nums[i];
+            int mod= sum%k;
+            
+            if(map.containsKey(mod)){
+                maxLength= Math.max(maxLength, i-map.get(mod));
+            }else
+                map.put(mod,i);
+        }
+        
+        return maxLength>=2;
+    }
+}
+
