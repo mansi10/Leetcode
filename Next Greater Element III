@@ -1,3 +1,55 @@
+
+class Solution {
+    public int nextGreaterElement(int n) {
+        char[] str = (n+"").toCharArray();
+        int i = str.length-2;
+        
+        while(i >= 0 && str[i+1] <= str[i]){
+            i--;
+        }
+        
+        if(i < 0){
+            return -1;
+        }
+        
+        int j = str.length-1;
+        while(j >= 0 && str[j] <= str[i]){
+            j--;
+        }
+        
+        swap(str, i, j);
+        
+        reverse(str, i+1);
+        
+        Long no = Long.parseLong(new String(str));
+        
+        if(no<=Integer.MAX_VALUE){
+            return no.intValue();
+        } else{
+            return -1;
+        }
+        
+    }
+    
+    public void reverse(char[] a, int start){
+        int end = a.length-1;
+        while(start < end){
+            swap(a, start, end);
+            start++;
+            end--;
+     }
+    }
+    
+    public void swap(char[] str, int start, int end){
+        char temp = str[start];
+        str[start] = str[end];
+        str[end] = temp;
+    }
+    
+}
+
+--------------------------------------------------------------
+
 class Solution {
    public int nextGreaterElement(int n) {
        
