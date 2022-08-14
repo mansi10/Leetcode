@@ -49,6 +49,67 @@ class Solution {
 Approach 2: DSU
 
 
+class Solution {
+    
+    private int find(int[] representative, int vertex){
+        if(vertex == representative[vertex]){
+            return vertex;
+        }
+        return representative[vertex] = find(representative, representative[vertex]);
+    }
+    
+    private boolean combine(int[] representative, int[] size, int vertex1, int vertex2){
+        vertex1 = find(representative, vertex1);
+        vertex2 = find(representative, vertex2);
+        
+        if(vertex1 == vertex2){
+            return false;
+        }
+        else{
+            if(size[vertex1] > size[vertex2]){
+                size[vertex1] += size[vertex2];
+                representative[vertex2] = vertex1;
+            }
+            else{
+                size[vertex2] += size[vertex1];
+                representative[vertex1] = vertex2;
+            }
+            return true;
+        }
+    }
+    
+    public boolean validTree(int n, int[][] edges) {
+
+        // Condition 1: The graph must contain n - 1 edges.
+        if(edges.length != n-1){
+            return false;
+        }
+        
+        int[] representative = new int[n];
+        int[] size = new int[n];
+        
+         // Condition 2: The graph must contain a single connected component.
+        // Create a new UnionFind object with n nodes. 
+        for(int i=0; i<n; i++){
+            representative[i] = i;
+            size[i] = 1;
+        }
+        
+        // Add each edge. Check if a merge happened, because if it 
+        // didn't, there must be a cycle.
+        for(int[] edge: edges){
+            int A = edge[0];
+            int B = edge[1];
+            
+            if(!combine(representative, size, A, B)){
+                return false;
+            }
+        }
+        return true;
+    }
+    
+}
+
 
 
 
