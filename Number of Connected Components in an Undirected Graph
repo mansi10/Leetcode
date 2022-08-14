@@ -1,0 +1,100 @@
+Approach 1: 
+
+class Solution {
+    public int countComponents(int n, int[][] edges) {
+        int components =0;
+        
+        boolean[] visited = new boolean[n];
+        Map<Integer, Set<Integer>> adjList = new HashMap<>();
+        
+        // initialize adjacency list
+        for(int i=0; i<n; i++){
+            adjList.put(i, new HashSet<>());
+        }
+        
+        // populate adjacency list
+        for(int[] edge : edges){
+            int edge1 = edge[0];
+            int edge2 = edge[1];
+            
+            adjList.get(edge1).add(edge2);
+            adjList.get(edge2).add(edge1);
+        }
+        
+        // call dfs for each node and count total components
+        for(int i=0; i<n; i++){
+            if(!visited[i]){
+                components++;
+                dfs(adjList, visited, i);
+            }
+        }
+        
+        return components;
+    }
+    
+    private void dfs(Map<Integer, Set<Integer>> adjList, boolean[] visited, int startNode){
+        visited[startNode] = true;
+        for(int children : adjList.get(startNode)){
+            if(!visited[children]){
+                dfs(adjList, visited, children);
+            }
+        }
+    }
+    
+}
+
+---------------------------
+
+Approach 2: 
+
+class Solution {
+    
+    private int find(int[] representative, int vertex){
+        if(vertex == representative[vertex]){
+            return vertex;
+        }
+        return representative[vertex] = find(representative, representative[vertex]);
+    }
+    
+    private int combine(int[] representative, int[] size, int vertex1, int vertex2){
+        vertex1 = find(representative, vertex1);
+        vertex2 = find(representative, vertex2);
+        
+        if(vertex1 == vertex2){
+            return 0;
+        }
+        else{
+            if(size[vertex1] > size[vertex2]){
+                size[vertex1] += size[vertex2];
+                representative[vertex2] = vertex1;
+            }
+            else{
+                size[vertex2] += size[vertex1];
+                representative[vertex1] = vertex2;
+            }
+            return 1;
+        }
+    }
+    
+    public int countComponents(int n, int[][] edges) {
+        
+        int[] representative = new int[n];
+        int[] size = new int[n];
+        
+        for(int i=0; i<n; i++){
+            representative[i] = i;
+            size[i] = 1;
+        }
+        
+        int components = n;
+        for(int i = 0; i < edges.length; i++){
+            components-= combine(representative, size, edges[i][0], edges[i][1]);
+        }
+        
+        return components;
+    }  
+    
+}
+
+
+
