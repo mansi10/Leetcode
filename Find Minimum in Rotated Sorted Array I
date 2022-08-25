@@ -57,14 +57,22 @@ class Solution {
         if(nums.length == 1){
             return nums[0];
         }
-        
-        // not rotated
-        if(nums[0] < nums[r]){
-            return nums[0];
-        }
     
-        // first ele < all ele to the left of inflection point
-        // all ele to right of inflection point < first ele
+// This is the way I thought about it:
+
+// - If the array is not rotated, we want to return the first element
+// - Because of this, we "tend" to go towards `nums[0]`
+// - That's why we "try" to bring `high` towards `low`
+        
+// In simple words: We want to go to the non-sorted part after finding mid.
+// If nums[mid] < nums[right], it implies the right part of mid is fully sorted and our minimum value has to be in the other "non-sorted" part.
+// Hence we make right = mid and go to that part.
+// Else if nums[mid] > nums[right], this means our left part is the sorted one.
+// Hence we go to the non-sorted right part with left = mid + 1
+        
+// Think of only 2 elements as input, then mid will always be equal to low in that case you don't have any element left to your mid but always an element to the right of mid.
+        
+// Eg- [3,1,2] mid = (0+2)/2 = 1, nums[mid] = 1, which is the smallest so if you do mid = end-1 your're excluding it from the search space.
         while(l < r){
             int mid = (l + r)/2;
             
@@ -78,5 +86,4 @@ class Solution {
         return nums[l];
     }
 }
-
 
