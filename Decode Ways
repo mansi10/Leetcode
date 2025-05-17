@@ -3,24 +3,27 @@
 
 public class Solution {
     public int numDecodings(String s) {
-        if (s == null || s.length() == 0) {
+        if(s.length() == 0 || s.charAt(0) == '0') {
             return 0;
         }
-        int n = s.length();
-        int[] dp = new int[n + 1];
-        dp[0] = 1;
-        dp[1] = s.charAt(0) != '0' ? 1 : 0;
-        for (int i = 2; i <= n; i++) {
-            int first = Integer.valueOf(s.substring(i - 1, i));
-            int second = Integer.valueOf(s.substring(i - 2, i));
-            if (first >= 1 && first <= 9) {
-               dp[i] += dp[i-1];  
-            }
-            if (second >= 10 && second <= 26) {
-                dp[i] += dp[i-2];
-            }
+        if(s.length() == 1) {
+            return 1;
         }
-        return dp[n];
+        int oneBack = 1, twoBack = 1;
+        for(int i=1;i<s.length();i++) {
+            int singleDigit = s.charAt(i) - '0';
+            int doubleDigit = (s.charAt(i-1) - '0') * 10 + singleDigit;
+            int count = 0;
+            if(singleDigit >= 1 && singleDigit <= 9) {
+                count +=  oneBack;
+            }
+            if(doubleDigit >= 10 && doubleDigit <= 26) {
+                count += twoBack;
+            }
+            twoBack = oneBack;
+            oneBack = count;
+        }
+        return oneBack;
     }
 }
 
