@@ -125,7 +125,26 @@ class Solution {
  */
 class Solution {
     public void reorderList(ListNode head) {
-       
+        ListNode l1 = head; // head of first half
+        ListNode prev = null; // tail of first half
+        ListNode slow = head; // head of second half
+        ListNode fast = head;
+
+        if (head == null || head.next == null || head.next.next == null) {
+            return;
+        }
+
+        while (fast != null && fast.next != null) {
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        prev.next = null;
+
+        ListNode slowPrev = reverse(slow);
+
+        merge(l1, slowPrev);
     }
 
     private ListNode reverse(ListNode l1) {
@@ -151,6 +170,5 @@ class Solution {
             l2=l2_next;
         }
     }
+
 }
-
-
