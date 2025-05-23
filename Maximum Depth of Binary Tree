@@ -95,4 +95,33 @@ class Solution {
     }
 }
 
+=======================================================
+
+
+    //BFS
+    public int maxDepth(TreeNode root) {
+
+
+        Queue<TreeNode> qu = new LinkedList<>();
+        qu.offer(root);
+        int level =0;
+        while(!qu.isEmpty()){
+            int size = qu.size();
+            level++;
+            while(size-->0){
+                TreeNode head = qu.poll();
+                if(head.left !=null){
+                    qu.offer(head.left);
+                }
+                if(head.right !=null){
+                    qu.offer(head.right);
+                }
+
+            }
+
+        }
+        return level;
+    }
+}
+
 
