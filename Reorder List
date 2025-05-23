@@ -125,33 +125,30 @@ class Solution {
  */
 class Solution {
     public void reorderList(ListNode head) {
-        ListNode l1 = head; // head of first half
-        ListNode prev = null; // tail of first half
-        ListNode slow = head; // head of second half
+        ListNode l1 = head;
+        ListNode slow = head;
         ListNode fast = head;
+        ListNode prevSlow = head;
 
-        if (head == null || head.next == null || head.next.next == null) {
-            return;
-        }
-
-        while (fast != null && fast.next != null) {
-            prev = slow;
+        while(fast != null && fast.next != null){
+            prevSlow = slow;
             slow = slow.next;
             fast = fast.next.next;
         }
+        
+        prevSlow.next = null;
 
-        prev.next = null;
+        ListNode reverseSlow= reverse(slow);
 
-        ListNode slowPrev = reverse(slow);
-
-        merge(l1, slowPrev);
+        merge(l1, reverseSlow);
     }
 
     private ListNode reverse(ListNode l1) {
         ListNode curr = l1;
         ListNode prev = null;
+
         while(curr != null){
-            ListNode temp = curr.next;
+            ListNode temp =curr.next;
             curr.next = prev;
             prev = curr;
             curr = temp;
@@ -160,15 +157,16 @@ class Solution {
     }
 
     private void merge(ListNode l1, ListNode l2) {
-        while(l2 != null){
-            ListNode l1_next = l1.next;
-            ListNode l2_next = l2.next;
+       while(l1 != null && l2 != null){
+        ListNode temp1 = l1.next;
+        ListNode temp2 = l2.next;
 
-            l1.next = l2;
-            l2.next=l1_next;
-            l1=l1_next;
-            l2=l2_next;
-        }
+        l1.next = l2;
+        if(temp1 == null)
+            break;
+        l2.next = temp1;
+        l1 = temp1;
+        l2 = temp2;
+       }
     }
-
 }
