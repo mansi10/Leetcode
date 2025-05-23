@@ -1,0 +1,44 @@
+Bottom up recursion
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    public boolean isBalanced = true;
+    public boolean isBalanced(TreeNode root) {
+        if(root == null){
+            return isBalanced;
+        }
+
+        depth(root);
+        return isBalanced;
+    }
+
+    private int depth(TreeNode node){
+        if(node == null){
+            return 0;
+        }
+
+        int left_height = depth(node.left);
+        int right_height = depth(node.right);
+        
+        if(Math.abs(left_height - right_height) > 1){
+            isBalanced = false;
+            return -2;
+        }
+
+        return 1 + Math.max(left_height, right_height);
+    }
+}
