@@ -13,6 +13,20 @@
  *     }
  * }
  */
+
+
+In the post order traversal, we need to account for two things:
+
+Global Maximum Path Sum: This considers the current node as the root of the path and includes contributions from both its left and right subtrees. This value gives the highest path sum if the path is allowed to "turn" at the current node.
+Current Path Sum: This is the maximum path sum at the current node that can continue upwards to its parent. A parent node can only use one of its child's paths in its calculation.
+For clarity:
+
+If a subtree's contribution is negative, it's better to ignore it entirely, as adding it would reduce the overall sum.
+At each node, we calculate two values:
+Maximum path sum considering the node as the root: node.val + leftMaxPath + rightMaxPath.
+Path sum for continuation: node.val + max(leftMaxPath, rightMaxPath).
+
+
 class Solution {
     int maxWidth = Integer.MIN_VALUE;
     public int maxPathSum(TreeNode root) {
