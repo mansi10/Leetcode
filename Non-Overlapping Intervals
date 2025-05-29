@@ -49,6 +49,8 @@ class Solution {
         int end = intervals[0][1];
 
         for(int i=1; i<intervals.length;i++){
+	// We need to traverse the sorted intervals, counting the number of invalid intervals, and
+        // updating the prevEnd value when you find a valid interval.
             if(intervals[i][0] < end){ // overlap
                 count++;
             }else{
