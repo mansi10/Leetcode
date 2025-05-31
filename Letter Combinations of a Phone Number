@@ -45,23 +45,25 @@ class Solution {
     public List<String> letterCombinations(String digits) {
         List<String> result = new ArrayList<>();
         String[] mapping = {
-            "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+                "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
         };
-        if(digits == null || digits.length() == 0){
+        if (digits == null || digits.length() == 0) {
             return result;
         }
-        dfs(digits, result, "", 0, mapping);
+        dfs(digits, result, new StringBuilder(), 0, mapping);
         return result;
     }
 
-    private void dfs(String digits, List<String> ans, String curr, int index, String[] map){
-        if(index == digits.length()){
-            ans.add(curr);
-        }else{
+    private void dfs(String digits, List<String> ans, StringBuilder sb, int index, String[] map) {
+        if (index == digits.length()) {
+            ans.add(sb.toString());
+        } else {
             String chars = map[digits.charAt(index) - '0'];
-        for(char c : chars.toCharArray()){
-            dfs(digits, ans, curr + c, index+1, map);
-        }
+            for (char c : chars.toCharArray()) {
+                sb.append(c);
+                dfs(digits, ans, sb, index + 1, map);
+                sb.deleteCharAt(sb.length() - 1);
+            }
         }
     }
 }
