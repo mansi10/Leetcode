@@ -38,3 +38,30 @@ class Solution {
     }
     
 }
+
+========================
+
+class Solution {
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<>();
+        String[] mapping = {
+            "0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"
+        };
+        if(digits == null || digits.length() == 0){
+            return result;
+        }
+        dfs(digits, result, "", 0, mapping);
+        return result;
+    }
+
+    private void dfs(String digits, List<String> ans, String curr, int index, String[] map){
+        if(index == digits.length()){
+            ans.add(curr);
+        }else{
+            String chars = map[digits.charAt(index) - '0'];
+        for(char c : chars.toCharArray()){
+            dfs(digits, ans, curr + c, index+1, map);
+        }
+        }
+    }
+}
