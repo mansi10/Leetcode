@@ -34,3 +34,36 @@ class Solution {
     }
 
 }
+
+=============================
+
+class Solution {
+    public List<List<String>> partition(String s) {
+        List<List<String>> result = new ArrayList<>();
+        dfs(0, s, result, new ArrayList<String>());
+        return result;
+    }
+
+    private void dfs(int start, String s, List<List<String>> res, List<String> cur){
+        if(start == s.length()){
+            res.add(new ArrayList<>(cur));
+        }else{
+            for(int i= start; i < s.length(); i++){
+                if(checkPalindrome(s, start, i)){
+                    cur.add(s.substring(start, i + 1));
+                    dfs(i + 1, s, res, cur);
+                    cur.remove(cur.size() - 1);
+                }
+            }
+        }
+    }
+
+    private boolean checkPalindrome(String s, int lo, int hi) {
+        while (lo < hi) {
+            if (s.charAt(lo++) != s.charAt(hi--)) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
