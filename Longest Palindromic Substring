@@ -92,3 +92,37 @@ private int expandAroundCenter(String s, int left, int right) {
             }
             return string.substring(begin + 1, end);
         }
+
+
+===============================================================
+
+class Solution {
+    int maxLength=0;
+    int startingPoint=0;
+
+    public String longestPalindrome(String s) {
+
+        if(s.length()<=1){
+            return s;
+        }
+
+        for(int i=0; i<s.length(); i++){
+            checkIfPalindrome(i, i, s);
+            checkIfPalindrome(i, i+1, s);
+        }
+        return s.substring(startingPoint, startingPoint+maxLength);
+    }
+
+    private int checkIfPalindrome(int start, int end, String s){
+        while(start >= 0 && end < s.length() && s.charAt(start) == s.charAt(end)){
+            start--;
+            end++;
+        }
+
+        if(maxLength < end-start-1){
+            maxLength = end-start-1;
+            startingPoint= start+1;
+        }
+        return maxLength;
+    }
+}
