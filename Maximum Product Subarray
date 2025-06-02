@@ -103,30 +103,25 @@ class Solution {
     }
 }
 
-------------------
+===========================================================
 
 class Solution {
     public int maxProduct(int[] nums) {
-        
-        int n = nums.length;
-        int l=1,r=1;
-        int ans=nums[0];
-        
-        for(int i=0;i<n;i++){
-            
-			//if any of l or r become 0 then update it to 1
-            l = l==0 ? 1 : l;
-            r = r==0 ? 1 : r;
-            
-            l *= nums[i];   //prefix product
-            r *= nums[n-1-i];    //suffix product
-            
-            ans = Math.max(ans,Math.max(l,r));
-            
-        }
-        
-        return ans;
+        // https://takeuforward.org/data-structure/maximum-product-subarray-in-an-array/
+        // optimal approach 1
+        int pref=1, suff=1;
+        int result=Integer.MIN_VALUE;
 
+        for(int i=0; i< nums.length; i++){
+            if(pref == 0) pref=1;
+            if(suff == 0) suff =1;
+
+            pref *= nums[i];
+            suff *= nums[nums.length-i-1];
+
+            result = Math.max(result, Math.max(pref, suff));
+        }
+        return result;
     }
 }
 
