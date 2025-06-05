@@ -1,3 +1,17 @@
+[[GATE] [INF] [INF] [INF] [GATE]]
+
+queue: [ (gate_0,0), (gate_0,4) ]
+
+Iteration 1: (updating distances from (gate_0,0)) : [[GATE] [1] [INF] [INF] [GATE]]
+queue: [ (gate_0,0), (gate_0,4), (room_0,1) ]
+Iteration 2: (updating distances from (gate_0,4) not from (room_0,1)) : [[GATE] [1] [INF] [1] [GATE]]
+queue: [ (gate_0,0), (gate_0,4), (room_0,1), (room_0,3) ]
+Iteration 3: (updating distances from (room_0,1)) : [[GATE] [1] [2] [1] [GATE]]
+queue: [ (gate_0,0), (gate_0,4), (room_0,1), (room_0,3), (room_0,2) ]
+
+
+================================
+
 class Solution {
     public void wallsAndGates(int[][] rooms) {
         int rows = rooms.length;
