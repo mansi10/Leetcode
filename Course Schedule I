@@ -59,58 +59,50 @@ class Solution {
 
 
 -------------------------
-Better approach : TC-O(V+E)
-SC-O(V+E)
 
 class Solution {
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        // for storing indegree of each course
         int[] indegree = new int[numCourses];
-        
-        // create adjacency list for each course
-        Map<Integer, Set<Integer>> adjacencyList = new HashMap<>();
-        for(int i=0; i< numCourses; i++){
-            adjacencyList.put(i,new HashSet<>());
+
+
+        Map<Integer, Set<Integer>> adjList = new HashMap<>();
+        for(int i=0; i < numCourses; i++){
+            adjList.put(i, new HashSet<>());
         }
-        
-        // populate adjacency list
-        for(int prerequisite[] : prerequisites){
-            int course = prerequisite[0];
-            int dependingCourse = prerequisite[1];
-            
-            adjacencyList.get(dependingCourse).add(course);
-            indegree[course]++;
+
+        // 1. populate indegree array and adjacency list
+        // [[1,0]] means 0 need to be completed first before 1.. 0->1
+        for(int[] pre : prerequisites){
+            int course = pre[0];
+            int dependingCourse = pre[1];
+            adjList.get(dependingCourse).add(course); // O(m)
+            indegree[course]++; // O(n)
         }
-        
-        // add nodes to queue whose indegree is 0 to start the process
-       Queue<Integer> queue = new LinkedList<>();
-        for(int i=0; i< numCourses; i++){
+
+        // 2. add nodes to queue whose indegree is 0 to start the process
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=0; i < numCourses; i++){
             if(indegree[i] == 0){
                 queue.add(i);
             }
         }
-        
-        int count =0;
+
+        int nodesVisited =0;
         while(!queue.isEmpty()){
-            int size = queue.size();
-            
-            while(size-- > 0){
-                int head = queue.poll();
-                count++;
-                
-                for(int children: adjacencyList.get(head)){
-                    indegree[children]--;
-                    if(indegree[children] == 0){
-                        queue.add(children);
-                    }
+            int node = queue.remove(); // O(1) for each node, so O(N) for all nodes
+            nodesVisited++;
+
+            // 3. For each neighbor (nodes that have an incoming edge from node) of node, 
+            // we decrement indegree[neighbor]by 1 to delete the node -> neighbor edge.
+            for(int children : adjList.get(node)){ // O(M) to iterate over edges
+                indegree[children]--;
+
+                if(indegree[children] == 0){
+                    queue.add(children);
                 }
             }
         }
-        
-          return count == numCourses;
+
+        return nodesVisited == numCourses;
     }
 }
-
-
-
-
