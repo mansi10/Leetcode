@@ -45,56 +45,48 @@ class Solution {
 
 ---------------------------
 
-Approach 2: 
+Approach 2: DSU 
 
 class Solution {
-    
-    private int find(int[] representative, int vertex){
-        if(vertex == representative[vertex]){
-            return vertex;
-        }
-        return representative[vertex] = find(representative, representative[vertex]);
-    }
-    
-    private int combine(int[] representative, int[] size, int vertex1, int vertex2){
-        vertex1 = find(representative, vertex1);
-        vertex2 = find(representative, vertex2);
-        
-        if(vertex1 == vertex2){
-            return 0;
-        }
-        else{
-            if(size[vertex1] > size[vertex2]){
-                size[vertex1] += size[vertex2];
-                representative[vertex2] = vertex1;
-            }
-            else{
-                size[vertex2] += size[vertex1];
-                representative[vertex1] = vertex2;
-            }
-            return 1;
-        }
-    }
-    
     public int countComponents(int n, int[][] edges) {
-        
+        // O(V)
         int[] representative = new int[n];
         int[] size = new int[n];
-        
-        for(int i=0; i<n; i++){
-            representative[i] = i;
+
+        for (int i = 0; i < n; i++) { // O(V)
             size[i] = 1;
+            representative[i] = i;
         }
-        
-        int components = n;
-        for(int i = 0; i < edges.length; i++){
-            components-= combine(representative, size, edges[i][0], edges[i][1]);
+
+        int components = n; // every node has its own representative
+
+        //iterate through all edges O(E).ALPHASV
+        for (int i = 0; i < edges.length; i++) {
+            component -= combine(representative, size, edges[i][0], edges[i][1]); // DECREASE the no of components
         }
-        
         return components;
-    }  
-    
+    }
+
+    private find(int[] representative, int vertex){
+        if (vertex == representative[vertex]) {
+            return vertex;
+        }
+        
+        return representative[vertex] = find(representative, representative[vertex]);
+    }
+
+    private int combine(int[] representative, int[] size, int v1, int v2){
+        v1 = find(representative,v1);
+        v2 = find(representative,v2);
+        if(v1 == v2){ // if kings are same, no battle takes place
+            return 0; // no of representatives don't decrease in ase of no battle
+        }else if(size[v1] > size[v2]){
+            size[v1] += size[v2];
+            representative[v2] == v1;
+        }else{
+             size[v2] += size[v1];
+            representative[v1] == v2;
+        }
+        return 1; // no of kings decrease by 1 in case of battle
+    }
 }
-
-
-
