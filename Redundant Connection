@@ -1,1 +1,42 @@
+DFS
+
+class Solution {
+
+    public int[] findRedundantConnection(int[][] edges) {
+        int n = edges.length;
+
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        for (int i = 1; i <= n; i++) {
+            map.put(i, new HashSet<>());
+        }
+
+        for (int[] edge : edges) {
+            if(dfs(new HashSet<>(), map, edge[0], edge[1])){
+                return edge;
+            }
+            map.get(edge[0]).add(edge[1]);
+            map.get(edge[1]).add(edge[0]);
+        }
+        return null;
+    }
+
+    private boolean dfs(Set<Integer> visited, Map<Integer, Set<Integer>> adjList, int src, int target) {
+        if(src == target){
+            return true;
+        }
+        visited.add(src);
+        for(int nei : adjList.get(src)){
+            if (!visited.contains(nei)) {
+                if (dfs(visited, adjList, nei, target)) 
+                    return true;
+            }
+        }
+        return false;
+    }
+}
+
+==============================
+
+DSU
+
 
