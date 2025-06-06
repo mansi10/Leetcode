@@ -1,45 +1,51 @@
 Approach 1: DFS and Graph Theory
 
-class Solution {
-    public boolean validTree(int n, int[][] edges) {
 //  if the graph is fully connected and contains exactly n - 1 edges, it can't possibly contain a cycle, and therefore must be a tree!
 // our algorithm needs to do the following:
 
 // Check whether or not there are n - 1 edges. If there's not, then return false.
 // Check whether or not the graph is fully connected. Return true if it is, false if otherwise.
     
-        if(edges.length != n-1){
-            return false;
-        }
-        
+       class Solution {
+    public boolean validTree(int n, int[][] edges) {
+
+        if (edges.length != n - 1) return false;
+
+        // Create a new list of lists.
         List<List<Integer>> adjList = new ArrayList<>();
         
+        // Initialise an empty list for each node.
         for(int i=0; i < n; i++){
             adjList.add(new ArrayList<>());
         }
-        
+
+        // Go through the edge list, populating the adjacency list.
         for(int[] edge : edges){
             adjList.get(edge[0]).add(edge[1]);
             adjList.get(edge[1]).add(edge[0]);
         }
-        
-        Queue<Integer> queue = new LinkedList<>();
-        Set<Integer> seen = new HashSet<>();
-        queue.offer(0);
+
+        // Use a stack to keep track of unexplored nodes.
+        Stack<Integer> stack = new Stack<>();
+        stack.push(0);
+
+        // Use a set to keep track of already seen nodes to avoid infinite looping. 
+        Set<Integer> seen = new HashSet<>(); 
         seen.add(0);
-        
-        while(!queue.isEmpty()){
-            int node = queue.poll();
-            
-            for(int neighbour: adjList.get(node)){
-                if(seen.contains(neighbour))
+
+        while(!stack.isEmpty()){
+            int node = stack.pop();
+            // check for neighbouring nodes
+            for(int neighbour : adjList.get(node)){
+                if(seen.contains(neighbour)){
                     continue;
-                
+                }
+                // Otherwise, put this neighbour onto stack
+                // and record that it has been seen.
+                stack.push(neighbour);
                 seen.add(neighbour);
-                queue.offer(neighbour);
             }
         }
-        
         return seen.size() == n;
     }
 }
