@@ -1,68 +1,44 @@
-// TC - O(V+E)
-
-// Our current algorithm is based on this idea. We first process all the nodes/course with 0 in-degree implying no prerequisite courses required. If we remove all these courses from the graph, along with their outgoing edges, we can find out the courses/nodes that should be processed next. These would again be the nodes with 0 in-degree. We can continuously do this until all the courses have been accounted for.
-
 class Solution {
     public int[] findOrder(int numCourses, int[][] prerequisites) {
-        // for storing indegree of each course
+        int[] ans = new int[numCourses];
         int[] indegree = new int[numCourses];
-        
-        // create adjacency list for each course
-        Map<Integer, Set<Integer>> adjacencyList = new HashMap<>();
-        for(int i=0; i< numCourses; i++){
-            adjacencyList.put(i,new HashSet<>());
+
+        Map<Integer, Set<Integer>> adjList = new HashMap<>();
+        for(int i=0; i < numCourses; i++){
+            adjList.put(i, new HashSet<>());
         }
-        
-        // populate adjacency list
-        for(int prerequisite[] : prerequisites){
-            int course = prerequisite[0];
-            int dependingCourse = prerequisite[1];
-            
-            adjacencyList.get(dependingCourse).add(course);
-            indegree[course]++;
+
+        for(int[] pre : prerequisites){
+            adjList.get(pre[1]).add(pre[0]);
+            indegree[pre[0]]++;
         }
-        
-        // add nodes to queue whose indegree is 0 to start the process
-       Queue<Integer> queue = new LinkedList<>();
-        for(int i=0; i< numCourses; i++){
+
+        Queue<Integer> queue = new LinkedList<>();
+        for(int i=0; i < numCourses; i++){
             if(indegree[i] == 0){
                 queue.add(i);
             }
         }
-        
-        List<Integer> order = new ArrayList<>();
+
+        int i=0;
+        int count=0;
         while(!queue.isEmpty()){
-            int size = queue.size();
-            
-            while(size-- > 0){
-                int head = queue.poll();
-                
-                if(indegree[head] == 0){
-                    order.add(head);
-                }
-                
-                for(int children: adjacencyList.get(head)){
-                    indegree[children]--;
-                    if(indegree[children] == 0){
-                        queue.add(children);
-                    }
+            int node = queue.remove();
+            ans[i++] = node;
+            count++;
+
+            for(int neighbour : adjList.get(node)){
+                indegree[neighbour]--;
+                if(indegree[neighbour] == 0){
+                    queue.add(neighbour);
                 }
             }
         }
-            
-            // add final answer to array
-            int i=0;
-            int[] ans = new int[order.size()];
-            for(Integer ele : order){
-                ans[i] = ele;
-                i++;
-            }
-            
-            // few pending courses and those cant be completed
-            if(order.size() != numCourses){
-               return new int[]{};
-            }
-        
-          return ans;
+
+        if(count != numCourses){
+            return new int[0];
+        }
+
+        return ans;
     }
 }
