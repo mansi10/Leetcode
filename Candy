@@ -30,3 +30,36 @@ class Solution {
 
 O(1) SC
 
+class Solution {
+    public int candy(int[] ratings) {
+        int len = ratings.length;
+        int res = len;
+
+        int i=1;
+        while(i < len){
+            if(ratings[i] == ratings[i-1]){
+                i++;
+                continue;
+            }
+
+            int inc =0;
+            while(i < len && ratings[i-1] < ratings[i]){
+                inc++;
+                res += inc;
+                i++;
+            }
+
+            int dec =0;
+            while(i < len && ratings[i] < ratings[i-1]){
+                dec++;
+                res += dec;
+                i++;
+            }
+
+            res -= Math.min(inc, dec);
+        }
+
+        return res;
+    }
+}
+
