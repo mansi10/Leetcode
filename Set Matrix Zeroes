@@ -28,6 +28,7 @@ class Solution {
 
 ------------------------------------------------------------------------
 
+
 class Solution {
     public void setZeroes(int[][] matrix) {
         int rows = matrix.length;
@@ -55,12 +56,14 @@ class Solution {
             }
         }
 
+// first row
         if(matrix[0][0] == 0){
             for(int i=0; i < cols; i++){
                 matrix[0][i] = 0;
             }
         }
 
+// first column
         if (isCol) {
             for (int i = 0; i < rows; i++) {
                 matrix[i][0] = 0;
@@ -69,5 +72,3 @@ class Solution {
 
     }
 }
-
-  
