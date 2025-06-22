@@ -1,1 +1,54 @@
 
+class Pair{
+         String value;
+         int timestamp;
+
+        public Pair(int timestamp, String value){
+        this.timestamp = timestamp;
+        this.value = value;
+        }
+
+        public String getValue(){
+            return value;
+        }
+
+        public int getTimestamp(){
+            return timestamp;
+        }
+    }
+    
+    class TimeMap {
+
+    private HashMap<String, ArrayList<Pair>> map;
+
+    public TimeMap() {
+        map= new HashMap<>();
+    }
+    
+    public void set(String key, String value, int timestamp) {
+        if(!map.containsKey(key)){
+            map.put(key, new ArrayList<>());
+        }
+        map.get(key).add(new Pair(timestamp, value));
+    }
+    
+    public String get(String key, int timestamp) {
+        List<Pair> values = map.getOrDefault(key, new ArrayList<>());
+
+        String result="";
+        int left=0;
+        int right=values.size()-1;
+
+        while(left <= right){
+            int mid = left + (right-left)/2;
+
+            if(values.get(mid).timestamp <= timestamp){
+                result = values.get(mid).getValue();
+                left = mid+1;
+            }else{
+                right = mid-1;
+            }
+        }
+        return result;
+    }
+}
