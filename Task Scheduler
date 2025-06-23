@@ -1,0 +1,36 @@
+class Solution {
+    public int leastInterval(char[] tasks, int n) {
+        int[] count = new int[26];
+        for(char task : tasks){
+            count[task - 'A']++;
+        }
+
+        PriorityQueue<Integer> heap = new PriorityQueue<>(Collections.reverseOrder());
+
+        for(int c : count){
+            if(c > 0){
+                heap.add(c);
+            }
+        }
+
+        int time=0;
+        Queue<int[]> q = new LinkedList<>(); //double ended q
+        while(!heap.isEmpty() || !q.isEmpty()){ // more tasks to process
+            time++;
+
+            if(!heap.isEmpty()){
+                int cnt = heap.poll() - 1;
+                if(cnt > 0){
+                    q.add(new int[] {cnt, time+n});
+                }
+            }
+
+            if(!q.isEmpty() && q.peek()[1] == time){
+                heap.add(q.poll()[0]);
+            }
+        }
+
+
+        return time;
+    }
+}
