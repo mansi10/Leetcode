@@ -36,7 +36,25 @@ class Solution {
 
 
 ------------------------------------------
+minheap solution 
 
+class Solution {
+    public int[][] kClosest(int[][] points, int k) {
+        PriorityQueue<int[]> heap = new PriorityQueue<>(Comparator.comparing(a -> a[0]));
+
+        for(int[] point : points){
+            int dis = point[0]*point[0] + point[1]*point[1];
+            heap.add(new int[] {dis, point[0], point[1]});
+        }
+
+        int[][] res = new int[k][2];
+        while(k-- > 0){
+            int[] point = heap.poll();
+            res[k] = new int[]{ point[1], point[2]};
+        }
+        return res;
+    }
+}
 
 
 
