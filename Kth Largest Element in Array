@@ -72,9 +72,11 @@ class Solution {
 
 ===================================
 
-Recursion
+Quick select
 
 class Solution {
+    private Random random = new Random();
+
     public int findKthLargest(int[] nums, int k) {
         k = nums.length-k;
 
@@ -82,6 +84,23 @@ class Solution {
     }
 
     private int quickSelect(int[] nums, int left, int right, int k){
+        int pivotIndex = left + random.nextInt(right - left + 1);
+
+        swap(nums, pivotIndex, right);
+
+        int p = partition(nums, left, right);
+        
+        if(p > k){
+            return quickSelect(nums, left, p-1, k);
+        }else if(p < k){
+            return quickSelect(nums, p+1, right, k);
+        }else{
+            return nums[p];
+        }
+
+    }
+
+    private int partition(int[] nums, int left, int right){
         int pivot = nums[right];
         int p=left;
 
@@ -93,14 +112,7 @@ class Solution {
         }
 
         swap(nums, p, right);
-
-        if(p > k){
-            return quickSelect(nums, left, p-1, k);
-        }else if(p < k){
-            return quickSelect(nums, p+1, right, k);
-        }else{
-            return nums[p];
-        }
+        return p;
     }
 
     private void swap(int[] nums, int a, int b){
@@ -109,6 +121,3 @@ class Solution {
         nums[b] = temp;
     }
 }
-
-
-
