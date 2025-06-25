@@ -35,3 +35,57 @@ class Solution {
         
     }
 }
+
+
+==========================
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode rotateRight(ListNode head, int k) {
+        if (head == null || k == 0) {
+            return head;
+        }
+
+        ListNode curr = head;
+
+        int length = 1;
+        while (curr.next != null) {
+            curr = curr.next;
+             length++;
+        }
+
+        if (k % length == 0) {
+            return head;
+        }
+
+        k %= length;
+        curr.next = head;
+
+        ListNode newLastNode = getKthNodeFrommLast(head, length - k);
+        head = newLastNode.next;
+        newLastNode.next = null;
+        return head;
+    }
+
+    private ListNode getKthNodeFrommLast(ListNode head, int k) {
+        int count = 1;
+        ListNode temp = head;
+        while (temp != null) {
+            if (count == k) {
+                return temp;
+            }
+                count++;
+                temp = temp.next;
+        }
+        return temp;
+    }
+}
