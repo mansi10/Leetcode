@@ -10,41 +10,55 @@
  */
 class Solution {
     public ListNode reverseKGroup(ListNode head, int k) {
-        int totalCount = 0;
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        
-        if(head == null || k ==1){
-            return head;
-        }
-        
         ListNode curr = head;
-        
-        while(curr != null){
-            totalCount++;
+        ListNode prevLast = null;
+
+        while (curr != null) {
+            ListNode kthNode = getKthNode(curr, k);
+
+            if (kthNode == null) {
+                if (prevLast != null) {
+                    prevLast.next = curr;
+                }
+                break;
+            }
+
+            ListNode nextNode = kthNode.next;
+            kthNode.next = null;
+
+            getReverse(curr);
+
+            if (curr == head) {
+                head = kthNode;
+            } else {
+                prevLast.next = kthNode;
+            }
+            prevLast = curr;
+            curr = nextNode;
+        }
+        return head;
+    }
+
+    private void getReverse(ListNode head) {
+        ListNode curr = head;
+        ListNode prev = null;
+
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
+        }
+    }
+
+    private ListNode getKthNode(ListNode node, int k) {
+        ListNode curr = node;
+        k -= 1;
+
+        while (curr != null && k > 0) {
+            k--;
             curr = curr.next;
         }
-        
-        curr = head;
-        ListNode forward = null;
-        ListNode prev = dummy;
-        
-        while(totalCount >= k){
-            curr = prev.next;
-            forward = curr.next;
-            
-            for(int i=1; i < k; i++){
-                curr.next = forward.next;
-                forward.next = prev.next;
-                prev.next = forward;
-                forward = curr.next;
-            }
-            
-            prev = curr;
-            totalCount = totalCount - k;
-            
-        }
-        
-        return dummy.next;
+        return curr;
     }
 }
