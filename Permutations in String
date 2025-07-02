@@ -1,39 +1,52 @@
+// https://neetcode.io/problems/permutation-string?list=neetcode150
+
 class Solution {
     public boolean checkInclusion(String s1, String s2) {
-        int s1Len = s1.length();
-        int s2Len = s2.length();
-        
-        if(s1Len > s2Len){
+        int len1= s1.length();
+        int len2= s2.length();
+
+        if(len1 > len2){
             return false;
         }
-        
-        int[] char_counts = new int[26];
-        
-         for(char str1 : s1.toCharArray()){
-            char_counts[str1 - 'a']++;
+
+        int[] s1count = new int[26];
+        int[] s2count = new int[26];
+        int matches =0;
+
+        for(int i=0; i < len1; i++){ // take first 3 chars from second string and update count array 
+            s1count[s1.charAt(i) - 'a']++;
+            s2count[s2.charAt(i) - 'a']++;
         }
-        
-        int left =0;
-        int right =0;
-        int count = s1.length();
-        
-        while(right < s2.length()){
-            if(char_counts[s2.charAt(right++) - 'a']-- >= 1){
-                count--;
+
+        for(int i=0; i < 26; i++){// update matches variable 
+            if(s1count[i] == s2count[i]){
+                matches++;
             }
-            
-            if(count == 0){
+        }
+
+        int l=0; 
+        for(int r = len1; r < len2; r++){
+            if(matches == 26){
                 return true;
             }
-            
-            if(right-left == s1.length() && char_counts[s2.charAt(left++) - 'a']++ >= 0){
-                count++;
+            // extending sliding window when a new character is added
+            int index = s2.charAt(r) - 'a';
+            s2count[index]++;
+            if(s2count[index] == s1count[index]){
+                matches++;
+            }else if(s2count[index] == s1count[index] + 1){
+                matches--;
             }
+             // contracting sliding window when a new character is removed
+            index = s2.charAt(l) - 'a';
+            s2count[index]--;
+            if(s2count[index] == s1count[index]){
+                matches++;
+            }else if(s2count[index] == s1count[index] - 1){
+                matches--;
+            }
+            l++;
         }
-        
-        
-        
-        return false;
+        return matches == 26;
     }
 }
-
