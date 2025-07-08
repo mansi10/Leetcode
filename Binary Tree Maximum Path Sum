@@ -59,3 +59,48 @@ Path sum for continuation: node.val + max(leftMaxPath, rightMaxPath).
     
     }
 } //do upvote if this helps
+
+
+====================
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int sum = Integer.MIN_VALUE;
+
+    public int maxPathSum(TreeNode root) {
+        dfs(root);
+        return sum;
+    }
+
+    private int dfs(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+
+        int leftsum = Math.max(0, dfs(root.left));
+        int rightsum = Math.max(0, dfs(root.right));
+
+        // the current node acts as a bridge (splitting into left and right).
+        sum = Math.max(sum, leftsum + rightsum + root.val);
+        // the Maximum Path Sum Without Splitting
+        // You are sending a path from the current Node up so that 
+        // the upper nodes are able to concatenate some path further to it. 
+        // But if you pick both left and right subtrees, then your path will be already done, 
+        // meaning that you won't be able to concatenate anything to it in the future.
+        return Math.max(leftsum, rightsum) + root.val;
+    }
+}
