@@ -13,42 +13,35 @@ queue: [ (gate_0,0), (gate_0,4), (room_0,1), (room_0,3), (room_0,2) ]
 ================================
 
 class Solution {
-    public void wallsAndGates(int[][] rooms) {
-        int rows = rooms.length;
-        int cols = rooms[0].length;
-
-        int[][] dirs = {{-1,0}, {0,1}, {0,-1}, {1,0}};
-        boolean[][] visited = new boolean[rows][cols];
-
-        if(rooms == null || rooms.length == 0){
-            return;
-        }
-
+    public void islandsAndTreasure(int[][] grid) {
+        int rows= grid.length;
+        int cols = grid[0].length;
+        int[][] dirs ={{0,1}, {1,0}, {0,-1}, {-1,0}};
         Queue<int[]> queue = new LinkedList<>();
+
         for(int i=0; i < rows; i++){
-            for(int j= 0; j < cols; j++){
-                if(rooms[i][j] == 0 && !visited[i][j]){
-                    queue.add(new int[]{i,j});
-                    visited[i][j] = true;
+            for(int j=0; j < cols; j++){
+                if(grid[i][j] == 0){
+                    queue.offer(new int[]{i, j});
                 }
             }
         }
 
         while(!queue.isEmpty()){
-            int[] curPos = queue.poll();
-            int row = curPos[0];
-            int col = curPos[1];
+            int size = queue.size();
+                for(int i=0; i < size; i++){
+                    int[] curr = queue.poll();
+                    for(int[] dir : dirs){
+                        int row = curr[0] + dir[0];
+                        int col = curr[1] + dir[1];
+                        
+                        if(row >= 0 && col >= 0 && row < rows && col < cols && grid[row][col] == Integer.MAX_VALUE){
+                            grid[row][col] = grid[curr[0]][curr[1]] + 1;
+                            queue.offer(new int[]{row, col});
+                        }
 
-            for(int[] dir : dirs){
-                int x = row + dir[0];
-                int y = col + dir[1];
-
-                if(x >= 0 && x < rows && y >= 0 && y < cols && rooms[x][y] == Integer.MAX_VALUE && !visited[x][y]){
-                    rooms[x][y] = rooms[row][col]+1;
-                    queue.add(new int[]{x, y});
-                    visited[x][y] = true;
+                    }
                 }
             }
         }
     }
-}
