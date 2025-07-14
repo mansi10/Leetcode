@@ -3,6 +3,8 @@ class Solution {
         int[] ans = new int[numCourses];
         int[] indegree = new int[numCourses];
 
+        // 1. populate indegree array and adjacency list
+        // [[1,0]] means 0 need to be completed first before 1.. 0->1
         Map<Integer, Set<Integer>> adjList = new HashMap<>();
         for(int i=0; i < numCourses; i++){
             adjList.put(i, new HashSet<>());
@@ -13,6 +15,7 @@ class Solution {
             indegree[pre[0]]++;
         }
 
+        // 2. add nodes to queue whose indegree is 0 to start the process
         Queue<Integer> queue = new LinkedList<>();
         for(int i=0; i < numCourses; i++){
             if(indegree[i] == 0){
