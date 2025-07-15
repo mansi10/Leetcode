@@ -32,36 +32,25 @@ public class Solution {
 
 class Solution {
     public int numDecodings(String s) {
-        if (s.length() == 0 || s == null) {
-            return 0;
-        }
-        
-        if (s.length() == 1 && s.charAt(0) == '0') {
-            return 0;
-        }
-                
-        if (s.length() == 1 && s.charAt(0) != '0') {
-            return 1;
-        }
-        
+        // dp[i] = no of ways to decode a string of length i
         int[] dp = new int[s.length() + 1];
         dp[0] = 1;
-        dp[1] = s.charAt(0) != '0' ? 1 : 0;        
-        
-        for (int i = 2; i <= s.length(); i++) {
-            if (Integer.parseInt(s.substring(i - 1, i)) >= 1 && Integer.parseInt(s.substring(i - 1, i)) <= 9) {
-                dp[i] = dp[i - 1] + dp[i];
+        dp[1] = s.charAt(0) == '0' ? 0 : 1;
+        for(int i=2; i <= s.length(); i++){
+            int oneDigit = Integer.valueOf(s.substring(i-1, i)); // current digit
+            int twoDigit = Integer.valueOf(s.substring(i-2, i)); // current and previous digit
+
+            if(oneDigit >= 1){
+                dp[i] += dp[i-1]; // no of ways to decode i-1 string and appending i to them
             }
-            
-            if (Integer.parseInt(s.substring(i - 2, i)) >= 10 && Integer.parseInt(s.substring(i - 2, i)) <= 26) {
-                dp[i] = dp[i - 2] + dp[i];
+
+            if(twoDigit >= 10 && twoDigit <= 26){
+                dp[i] += dp[i-2]; // no of ways to decode i-2 string and appending i to them
             }
         }
-        
         return dp[s.length()];
     }
 }
-
 
 -----------
 // TC O(N)
