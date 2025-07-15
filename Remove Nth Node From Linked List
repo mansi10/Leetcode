@@ -20,7 +20,8 @@ class Solution {
         }
         
         length-=n;
-        first= dummy;
+        first= dummy; // If you started from head instead of dummy, you'd 
+//     be unable to update the head itself cleanly — you'd need special handling.
         while(length > 0){
             length--;
             first= first.next;
