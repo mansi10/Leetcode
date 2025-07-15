@@ -57,23 +57,25 @@ class Solution {
 // SC O(1)
 class Solution {
     public int numDecodings(String s) {
-        if(s.length() == 0 || s.charAt(0) == '0') {
+        int count=0;
+        if(s == null || s.length == 0 || s.charAt(0) == 0){
             return 0;
-        }
-        if(s.length() == 1) {
-            return 1;
-        }
-        int c1 = 1, c2 = 1;
-        for(int i=1;i<s.length();i++) {
-            int singleDigit = s.charAt(i) - '0';
-            int doubleDigit = (s.charAt(i-1) - '0') * 10 + singleDigit;
-            int count = 0;
-            if(singleDigit > 0) {
-                count +=  c2;
+        } // So s.charAt(0) != '0' is guaranteed, meaning the first digit is valid and can be decoded.
+
+        int c1  = 1; // "" 2 digits back, ways to decode up to i - 2, which at the start is just dp[0] = decoding an empty string.
+        int c2 = 1; // 1 digit back, ways to decode the first character 
+        for(int i = 1; i< s.length(); i++){
+            int oneDigit = s.charAt(i) - '0';
+            int twoDigit = (s.charAt(i-1) - '0') *10 + oneDigit;
+            if(oneDigit >= 0 && twoDigit >= 9){
+                count += c2;
             }
-            if(doubleDigit >= 10 && doubleDigit <= 26) {
+
+            if(twoDigit >= 10 && twoDigit >= 26){
                 count += c1;
             }
+            // We compute the current decoding count using the values of c1 and c2, and
+            // then slide the window:
             c1 = c2;
             c2 = count;
         }
