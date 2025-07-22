@@ -1,0 +1,29 @@
+class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> result = new ArrayList<>();
+        if(s.length() > 12){
+            return result;
+        }
+
+        backtrack(s, "", result, 0, 0);
+        return result;
+    }
+
+    private void backtrack(String s, String currString, List<String> result, int index, int dots){
+        if(dots == 4 && index == s.length()){
+            result.add(currString.substring(0, currString.length()-1));
+            return;
+        }
+
+        if(dots > 4){
+            return;
+        }
+
+        for(int j= index; j < Math.min(index+3, s.length()); j++){
+            if (index != j && s.charAt(index) == '0') continue;
+            if(Integer.parseInt(s.substring(index, j+1)) <= 255 ){
+                backtrack(s, currString + s.substring(index, j+1) + ".", result, j+1, dots+1);
+            }
+        }
+    }
+}
