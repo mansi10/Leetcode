@@ -1,0 +1,32 @@
+class Solution {
+    public int[] pourWater(int[] heights, int volume, int k) {
+        while (volume-- > 0) {
+            boolean dropped = false;
+
+            // Try left (-1), then right (+1)
+            for (int d = -1; d <= 1; d += 2) {
+                int i = k;
+                int best = k;
+
+                while (i + d >= 0 && i + d < heights.length && heights[i + d] <= heights[i]) {
+                    if (heights[i + d] < heights[i]) {
+                        best = i + d;
+                    }
+                    i += d;
+                }
+
+                if (heights[best] < heights[k]) {
+                    heights[best]++;
+                    dropped = true;
+                    break; // Done with this droplet
+                }
+            }
+
+            // Couldn’t move left or right → drop at K
+            if (!dropped) {
+                heights[k]++;
+            }
+        }
+        return heights;
+    }
+}
