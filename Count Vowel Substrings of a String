@@ -1,0 +1,25 @@
+class Solution {
+    public int countVowelSubstrings(String word) {
+        int count = 0;
+        int n = word.length();
+        Set<Character> set = new HashSet<>();
+
+        for (int i = 0; i < n - 4; i++) { // At least 5 letters needed
+            set.clear();
+            for (int j = i; j < n; j++) {
+                char ch = word.charAt(j);
+                if (isVowel(ch)) {
+                    set.add(ch);
+                    if (set.size() == 5) count++;
+                } else {
+                    break;
+                }
+            }
+        }
+        return count;
+    }
+
+    private boolean isVowel(char c) {
+        return "aeiou".indexOf(c) != -1;
+    }
+}
