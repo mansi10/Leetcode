@@ -1,0 +1,60 @@
+class Solution {
+    public List<String> removeInvalidParentheses(String s) {
+        Set<String> result = new HashSet<>();
+        int leftToRemove = 0, rightToRemove = 0;
+
+        for (char c : s.toCharArray()) {
+            if (c == '(') {
+                leftToRemove++;
+            } else if (c == ')') {
+                if (leftToRemove > 0) {
+                    leftToRemove--;
+                } else {
+                    rightToRemove++;
+                }
+            }
+        }
+        dfs(s, 0, leftToRemove, rightToRemove, 0, new StringBuilder(), result);
+        return new ArrayList<>(result);
+    }
+
+    private void dfs(String s, int index, int leftRem, int rightRem, int open, StringBuilder path, Set<String> result) {
+        if (index == s.length()) {
+            if (leftRem == 0 && rightRem == 0 && open == 0) {
+                result.add(path.toString());
+            }
+            return;
+        }
+
+        char c = s.charAt(index);
+        int len = path.length();
+
+        // Case 1: Current char is '('
+        if (c == '(') {
+            // Option 1: remove it
+            if (leftRem > 0) {
+                dfs(s, index + 1, leftRem - 1, rightRem, open, path, result);
+            }
+            // Option 2: keep it
+            path.append(c);
+            dfs(s, index + 1, leftRem, rightRem, open + 1, path, result);
+            path.setLength(len); // backtrack
+        } else if (c == ')') {  // Case 2: Current char is ')'
+            // Option 1: remove it
+            if (rightRem > 0) {
+                dfs(s, index + 1, leftRem, rightRem - 1, open, path, result);
+            }
+            // Option 2: keep it only if open > 0
+            if (open > 0) {
+                path.append(c);
+                dfs(s, index + 1, leftRem, rightRem, open - 1, path, result);
+                path.setLength(len); // backtrack
+            }
+        } else {
+            // Just keep other characters
+            path.append(c);
+            dfs(s, index + 1, leftRem, rightRem, open, path, result);
+            path.setLength(len); // backtrack
+        }
+    }
+}
