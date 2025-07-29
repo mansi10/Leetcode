@@ -23,15 +23,21 @@ class RandomizedCollection {
             return false;
         }
 
+        // Get the last element in the list
         int valueAtLastIndex = list.get(list.size()-1);
+         // Get one index where val exists
         int idxToRemove = map.get(val).iterator().next();
 
         map.get(val).remove(idxToRemove);
 
+        // Replace val with lastVal in the list
         list.set(idxToRemove, valueAtLastIndex);
 
+        // Update the map for lastVal
         map.get(valueAtLastIndex).remove(list.size() - 1);
         map.get(valueAtLastIndex).add(idxToRemove);
+
+        // clean val
         list.remove(list.size()-1);
         
         return true;
