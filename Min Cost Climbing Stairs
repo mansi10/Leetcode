@@ -14,4 +14,42 @@ class Solution {
 
 ======================================================================
 
+class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+        int[] dp = new int[n+1];
+        // you don’t pay any cost to start at step 0 or 1.
+        dp[0] =0;
+        dp[1] = 0;
+        for(int i=2; i <= n; i++){
+            // Transition: To reach step i, you could come from:
+            // i-1 → cost is dp[i-1] + cost[i-1]
+            // i-2 → cost is dp[i-2] + cost[i-2]
+            // Take the minimum of these two.
+            dp[i] = Math.min(dp[i-1] + cost[i-1], dp[i-2] + cost[i-2]);
+        }
+        return dp[n]; // dp[n] represents the top (beyond last stair)
+    }
+}
+
+====================================================================
+
+public class Solution {
+    public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+        
+        int prev2 = 0; // dp[i-2]
+        int prev1 = 0; // dp[i-1]
+
+        for (int i = 2; i <= n; i++) {
+            int curr = Math.min(prev1 + cost[i - 1], prev2 + cost[i - 2]);
+            prev2 = prev1;
+            prev1 = curr;
+        }
+
+        return prev1;
+    }
+}
+
+
 
