@@ -31,12 +31,13 @@ class Solution {
         int n = s.length();
         if (n == 0) return 0;
 
-        int[] dp = new int[n + 1];
+        int[] dp = new int[n + 1]; // number of ways to decode the first i characters of the string s[0..i−1].
         dp[0] = 1; // empty string
-        dp[1] = s.charAt(0) == '0' ? 0 : 1;
+        dp[1] = s.charAt(0) == '0' ? 0 : 1; // first character s[0].
 
         for (int i = 2; i <= n; i++) {
-            int oneDigit = s.charAt(i - 1) - '0';
+        // i-1 always points to the current character, and i-2 points to the previous character for two-digit combinations.
+            int oneDigit = s.charAt(i - 1) - '0'; // we are at iteration i, the current character in the string is at index i-1:
             int twoDigit = (s.charAt(i - 2) - '0') * 10 + oneDigit;
 
             if (oneDigit >= 1 && oneDigit <= 9) dp[i] += dp[i - 1];
