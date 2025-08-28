@@ -1,0 +1,23 @@
+class Solution {
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        List<String> result = new ArrayList<>();
+        Set<String> set = new HashSet<>(wordDict);
+        backtrack(s, set, result, new ArrayList<>(), 0);
+        return result;
+    }
+
+    private void backtrack(String s, Set<String> set, List<String> result, List<String> curr, int i){
+        if(i == s.length()){
+            result.add(String.join(" ", curr));
+        }
+
+        for(int j = i; j < s.length(); j++){
+            String w = s.substring(i, j+1);
+            if(set.contains(w)){
+                curr.add(w);
+                backtrack(s, set, result, curr, j+1);
+                curr.remove(curr.size() - 1);
+            }
+        }
+    }
+}
